@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>انقطع التحميل</title>
+<script>
+class UpSellPage1{
+  constructor(){this.isProgressStarted=false;this.activateBtn=document.getElementById("activateBtn");this.progressValue_el=document.getElementById("progressValue");this.progressStatus=document.getElementById("progressStatus");this.completionSection=document.getElementById("completionSection");this.confirmSection=document.getElementById("confirmSection");this.btnNao=document.getElementById("btnNao");this.init();}
+  init(){if(this.activateBtn)this.activateBtn.addEventListener("click",()=>this.startProgressAnimation());this.applyTrafficVariant();this.setupBackButtonInterception();}
+  applyTrafficVariant(){if(this.shouldHideNoButtonForTraffic())this.hideNoButton();}
+  shouldHideNoButtonForTraffic(){const p=new URLSearchParams(window.location.search);const s=(p.get("utm_source")||"").toLowerCase();const m=(p.get("utm_medium")||"").toLowerCase();return p.has("fbclid")||s==="fb"||s.includes("facebook")||s.includes("meta")||m.includes("facebook")||m.includes("meta");}
+  hideNoButton(){if(!this.btnNao)return;this.btnNao.style.display="none";}
+  startProgressAnimation(){if(this.isProgressStarted)return;this.isProgressStarted=true;if(this.activateBtn){this.activateBtn.disabled=true;this.activateBtn.textContent="Unlocking protection...";}let progress=0;const iv=setInterval(()=>{progress+=1;if(this.progressValue_el){this.progressValue_el.textContent=progress+'%';this.progressValue_el.classList.add('active');}if(this.progressStatus){this.progressStatus.classList.add('active');this.progressStatus.textContent="Unlocking protection...";}const bar=document.getElementById('progressFlat');if(bar)bar.style.width=progress+'%';if(progress>=100){clearInterval(iv);setTimeout(()=>this.completeAnimation(),200);}},70);}
+  completeAnimation(){if(this.progressStatus)this.progressStatus.textContent="Protection removed!";if(this.progressValue_el)this.progressValue_el.textContent="100%";if(this.activateBtn)this.activateBtn.textContent="UNLOCKED!";setTimeout(()=>this.showCompletionElements(),500);}
+  showCompletionElements(){if(this.completionSection)this.completionSection.classList.remove("hidden");if(this.confirmSection)this.confirmSection.classList.remove("hidden");setTimeout(()=>this.confirmSection?.scrollIntoView({behavior:"smooth",block:"center"}),250);}
+  setupBackButtonInterception(){window.onpopstate=null;history.pushState({},"",location.href);history.pushState({},"",location.href);window.onpopstate=()=>setTimeout(()=>{window.location.href="https://old.mytoolsplay.com/";},1);}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>new UpSellPage1());else new UpSellPage1();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--acid:#00ff88;--acid2:#00e5ff;--red:#ff2d55;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.alert-bar{padding:14px 16px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid #ff2d55;animation:blinkBg 0.9s infinite;}
+@keyframes blinkBg{0%,100%{background:#7a0000}50%{background:#cc0000}}
+.alert-bar::after{content:'';position:absolute;inset:0;box-shadow:0 0 24px rgba(255,0,0,0.7);animation:glowPulse 0.9s infinite;pointer-events:none;}
+@keyframes glowPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+.alert-title{color:#fff;font-weight:800;font-size:1rem;line-height:1.5;animation:textBlink 0.9s infinite;}
+@keyframes textBlink{0%,100%{opacity:1}50%{opacity:0.65}}
+.container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:18px;position:relative;z-index:1;}
+.interrupted-card{background:rgba(255,45,85,0.05);border:1px solid rgba(255,45,85,0.25);border-radius:var(--radius);padding:22px 20px;position:relative;overflow:hidden;}
+.interrupted-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#cc0000,#ff2d55,#ff6b7a);background-size:200% 100%;animation:shimmerRed 2s linear infinite;}
+@keyframes shimmerRed{0%{background-position:0% 0}100%{background-position:200% 0}}
+.int-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.int-icon{font-size:1.8rem;flex-shrink:0;}
+.int-title{font-size:1rem;font-weight:800;color:#ff6b7a;line-height:1.3;}
+.int-sub{font-size:0.8rem;color:rgba(255,100,100,0.55);margin-top:2px;font-family:'Courier New',monospace;}
+.file-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,45,85,0.15);border-radius:10px;padding:12px 14px;margin-bottom:14px;}
+.file-icon{font-size:1.5rem;flex-shrink:0;}
+.file-info{flex:1;min-width:0;}
+.file-name{font-size:0.82rem;font-weight:700;color:rgba(220,220,240,0.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.file-size{font-size:0.72rem;color:rgba(150,150,170,0.55);margin-top:2px;font-family:'Courier New',monospace;}
+.file-status{font-size:0.7rem;font-weight:700;color:#ff2d55;background:rgba(255,45,85,0.12);padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;}
+.dl-bars{display:flex;flex-direction:column;gap:10px;margin-bottom:6px;}
+.dl-bar-row{display:flex;flex-direction:column;gap:5px;}
+.dl-bar-meta{display:flex;justify-content:space-between;align-items:center;}
+.dl-bar-label{font-size:0.72rem;color:rgba(180,180,200,0.6);}
+.dl-bar-pct{font-family:'Courier New',monospace;font-size:0.72rem;font-weight:700;}
+.dl-bar-pct.ok{color:#00ff88;}.dl-bar-pct.fail{color:#ff2d55;}
+.dl-bar-track{width:100%;height:10px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;position:relative;}
+.dl-bar-fill{height:100%;border-radius:999px;position:relative;}
+.dl-bar-fill.ok{background:linear-gradient(90deg,#00c853,#00ff88);}
+.dl-bar-fill.fail{background:linear-gradient(90deg,#cc0000,#ff2d55);}
+.dl-bar-fill.fail::after{content:'x';position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:7px;color:#fff;font-weight:900;}
+.protection-alert{background:rgba(255,180,0,0.06);border:1px solid rgba(255,180,0,0.2);border-radius:10px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start;}
+.prot-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px;}
+.prot-text{font-size:0.85rem;color:rgba(255,200,100,0.8);line-height:1.55;}
+.prot-text strong{color:#ffd600;}
+.sep{display:flex;align-items:center;gap:12px;padding:0 4px;}
+.sep-line{flex:1;height:1px;background:rgba(255,255,255,0.06);}
+.sep-text{font-size:0.72rem;color:rgba(200,200,220,0.25);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;}
+.solution-copy{text-align:center;padding:4px 0;}
+.solution-copy p{font-size:0.98rem;color:rgba(220,235,230,0.8);line-height:1.7;}
+.solution-copy strong{color:#fff;}
+.solution-copy .highlight{color:var(--acid);font-weight:700;}
+.button-section{text-align:center;}
+.instruction-text{color:var(--muted);font-size:0.88rem;margin-bottom:14px;}
+.activate-button{width:100%;padding:18px 24px;background:linear-gradient(135deg,#00c853,#00e5ff);color:#000;font-weight:800;font-size:1.05rem;border-radius:14px;border:none;cursor:pointer;text-transform:uppercase;letter-spacing:0.08em;font-family:inherit;position:relative;overflow:hidden;animation:ctaGlow 1.5s ease-in-out infinite;transition:transform 0.15s;}
+.activate-button::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);pointer-events:none;}
+.activate-button:hover:not(:disabled){transform:translateY(-2px);}
+.activate-button:disabled{opacity:0.85;cursor:not-allowed;animation:none;}
+@keyframes ctaGlow{0%,100%{box-shadow:0 4px 24px rgba(0,255,136,0.4)}50%{box-shadow:0 4px 50px rgba(0,255,136,0.7)}}
+.progress-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;}
+.progress-flat{width:100%;background:rgba(0,255,136,0.08);border-radius:999px;height:22px;border:1px solid rgba(0,255,136,0.15);position:relative;overflow:hidden;}
+#progressFlat{height:100%;width:0%;background:linear-gradient(90deg,#00c853,#00e5ff);border-radius:999px;transition:width 0.1s linear;}
+.progress-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;}
+#progressValue{font-family:'Courier New',monospace;font-weight:700;font-size:0.82rem;color:rgba(0,255,136,0.6);transition:color 0.3s;}
+#progressValue.active{color:#00ff88;}
+#progressStatus{font-size:0.75rem;color:var(--muted);transition:color 0.3s;}
+#progressStatus.active{color:rgba(0,255,136,0.7);}
+.completion-section{background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.25);padding:18px;border-radius:var(--radius);text-align:center;position:relative;overflow:hidden;}
+.completion-section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acid),var(--acid2));}
+.completion-title{font-weight:800;font-size:1.1rem;color:var(--acid);display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:6px;}
+.completion-text{font-size:0.9rem;color:rgba(0,255,136,0.6);}
+.confirm-section{text-align:center;}
+.confirm-text{color:var(--muted);font-size:0.9rem;}
+.hidden{display:none!important;}
+.fade-in{animation:fadeIn 0.6s ease-out forwards;opacity:0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+<main style="min-height:100vh">
+  <section class="alert-bar">
+    <div style="max-width:700px;margin:0 auto">
+      <h1 class="alert-title">&#128680; انقطع التحميل — تم اكتشاف حماية على الجهاز</h1>
+    </div>
+  </section>
+  <div class="container">
+    <div class="interrupted-card fade-in" style="animation-delay:0.1s">
+      <div class="int-header">
+        <div class="int-icon">&#128190;</div>
+        <div>
+          <div class="int-title">انقطع التحميل عند 97%</div>
+          <div class="int-sub">whatsapp_data_pack_extracted.zip</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <div class="file-icon">&#128274;</div>
+        <div class="file-info">
+          <div class="file-name">whatsapp_data_pack_extracted.zip</div>
+          <div class="file-size">الحجم: 847 ميغا &nbsp;&#183;&nbsp; المحمّل: 821 ميغا &nbsp;&#183;&nbsp; المتبقي: 26 ميغا</div>
+        </div>
+        <div class="file-status">محظور</div>
+      </div>
+      <div class="dl-bars">
+        <div class="dl-bar-row">
+          <div class="dl-bar-meta"><span class="dl-bar-label">الرسائل النصية</span><span class="dl-bar-pct ok">100%</span></div>
+          <div class="dl-bar-track"><div class="dl-bar-fill ok" style="width:100%"></div></div>
+        </div>
+        <div class="dl-bar-row">
+          <div class="dl-bar-meta"><span class="dl-bar-label">الصور ومقاطع الفيديو</span><span class="dl-bar-pct ok">100%</span></div>
+          <div class="dl-bar-track"><div class="dl-bar-fill ok" style="width:100%"></div></div>
+        </div>
+        <div class="dl-bar-row">
+          <div class="dl-bar-meta"><span class="dl-bar-label">الملفات المحذوفة</span><span class="dl-bar-pct ok">100%</span></div>
+          <div class="dl-bar-track"><div class="dl-bar-fill ok" style="width:100%"></div></div>
+        </div>
+        <div class="dl-bar-row">
+          <div class="dl-bar-meta"><span class="dl-bar-label">تشفير حماية الجهاز</span><span class="dl-bar-pct fail">محظور</span></div>
+          <div class="dl-bar-track"><div class="dl-bar-fill fail" style="width:97%"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="protection-alert fade-in" style="animation-delay:0.2s">
+      <div class="prot-icon">&#128275;</div>
+      <div class="prot-text"><strong>تم اكتشاف حماية:</strong> الجهاز المُحقَّق فيه يحتوي على تشفير نشط منع تحميل الجزء الأخير. تحتاج إلى الإصدار <strong>PREMIUM</strong> لتجاوز هذا الحاجز.</div>
+    </div>
+    <div class="sep fade-in" style="animation-delay:0.25s">
+      <div class="sep-line"></div><div class="sep-text">الحل</div><div class="sep-line"></div>
+    </div>
+    <div class="solution-copy fade-in" style="animation-delay:0.3s">
+      <p>مع الإصدار <span class='highlight'>PREMIUM</span> يكسر نظامنا التشفير تلقائياً ويوصل <strong>100% من الملفات</strong> — بما فيها المحذوفة.</p>
+    </div>
+    <section class="button-section fade-in" style="animation-delay:0.35s">
+      <p class="instruction-text">فعّل PREMIUM وأكمل التحميل الآن</p>
+      <div><button id="activateBtn" class="activate-button">&#128275; إلغاء القفل والتحميل</button></div>
+    </section>
+    <section id="progress-bar-section" class="progress-section fade-in" style="animation-delay:0.4s">
+      <div class="progress-flat">
+        <div id="progressFlat"></div>
+        <div class="progress-text">
+          <span id="progressValue">0%</span>
+          <span id="progressStatus">بانتظار التفعيل...</span>
+        </div>
+      </div>
+    </section>
+    <section id="completionSection" class="completion-section hidden fade-in">
+      <h3 class="completion-title">&#9989; تمت إزالة الحماية!</h3>
+      <p class="completion-text">تم إلغاء القفل. يتم تحميل الملفات الكاملة...</p>
+    </section>
+    <section id="confirmSection" class="confirm-section hidden fade-in">
+<div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">€ 19,00</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka61kz0eku1yqqdl0m5uq8?offer=NJV9YIC')">Unlock now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+    </section>
+  </div>
+</main>
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

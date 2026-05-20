@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR" >
+<head>
+  
+  <!-- UTMify -->
+  
+  <meta charset="UTF-8">
+  <title>WhatSpy — Analizowanie...</title>
+  <meta name="robots" content="max-image-preview:large">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --acid:#00ff88;--acid2:#00e5ff;--red:#ff2d55;--yellow:#ffd60a;
+      --bg:#020408;--surface:rgba(0,255,136,0.04);--surface2:rgba(0,0,0,0.4);
+      --border:rgba(0,255,136,0.15);--red-surface:rgba(255,45,85,0.06);
+      --red-border:rgba(255,45,85,0.25);--text:#e8f4f0;--muted:#4a6a5a;--radius:12px;
+    }
+    html{font-size:16px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+    .orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:float 8s ease-in-out infinite;}
+    .orb1{width:300px;height:300px;background:rgba(0,255,136,0.06);top:-80px;right:-60px;}
+    .orb2{width:200px;height:200px;background:rgba(0,229,255,0.04);bottom:200px;left:-60px;animation-delay:-4s;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+    @keyframes shimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+    @keyframes ctaGlow{0%,100%{box-shadow:0 4px 20px rgba(0,255,136,0.4)}50%{box-shadow:0 4px 50px rgba(0,255,136,0.7)}}
+    @keyframes shine{0%{left:-100%}100%{left:200%}}
+    @keyframes ctaPulse{0%,100%{box-shadow:0 4px 30px rgba(255,45,85,0.5)}50%{box-shadow:0 4px 50px rgba(255,45,85,0.8)}}
+
+    body{padding:0 0 60px;}
+    .page{width:100%;max-width:480px;position:relative;z-index:1;display:flex;flex-direction:column;align-items:stretch;gap:12px;padding:0 0 24px;}
+    .banner-warning{background:linear-gradient(135deg,rgba(255,45,85,0.15),rgba(255,45,85,0.08));border-bottom:2px solid rgba(255,45,85,0.4);padding:14px 20px;text-align:center;font-size:0.82rem;font-weight:600;color:#ff6b7a;line-height:1.5;position:relative;overflow:hidden;}
+    .banner-warning::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,45,85,0.1),transparent);animation:shine 3s linear infinite;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;margin:0 12px;}
+    .card.success{border-color:rgba(0,255,136,0.3);background:rgba(0,255,136,0.05);position:relative;overflow:hidden;}
+    .card.success::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acid),var(--acid2));}
+    .card-title{font-size:0.95rem;font-weight:700;line-height:1.4;margin-bottom:6px;}
+    .card-title.green{color:var(--acid);}
+    .card-sub{font-size:0.82rem;color:var(--muted);}
+    .video-wrap{margin:0 12px;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;}
+    #meu-video{width:100%;display:block;background:#000;}
+    #botao-ativar-som{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;cursor:pointer;background:rgba(255,45,85,0.9);border:2px solid rgba(255,45,85,0.5);border-radius:14px;padding:14px 24px;display:flex;flex-direction:column;align-items:center;gap:6px;transition:background 0.2s,transform 0.15s;animation:ctaPulse 2s ease-in-out infinite;}
+    #botao-ativar-som:hover{background:rgba(200,20,50,0.95);transform:translate(-50%,-50%) scale(1.05);}
+    .unmute-icon{font-size:1.6rem;line-height:1;}
+    .unmute-text{font-size:0.82rem;font-weight:700;color:#fff;white-space:nowrap;}
+    .timer-note{text-align:center;font-size:0.8rem;color:var(--muted);padding:8px 0 4px;}
+    .delayzin{display:none;}
+    .delayzin.visible{display:block!important;animation:fadeUp 0.5s ease both;}
+    .cta-wrap{margin:0 12px;text-align:center;}
+    .cta-found{font-family:'Orbitron',monospace;font-size:0.82rem;font-weight:700;color:var(--acid);margin-bottom:12px;letter-spacing:0.05em;text-shadow:0 0 20px rgba(0,255,136,0.5);}
+    .btn-cta{display:block;width:100%;padding:18px 16px;background:linear-gradient(135deg,#00c853,#00e5ff);border:none;border-radius:14px;color:#000;font-family:'Orbitron',monospace;font-weight:700;font-size:0.85rem;letter-spacing:0.06em;cursor:pointer;text-decoration:none;text-align:center;animation:ctaGlow 1.5s ease-in-out infinite;transition:transform 0.15s;position:relative;overflow:hidden;}
+    .btn-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);pointer-events:none;}
+    .btn-cta:hover{transform:translateY(-3px);}
+    .profile-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 16px;margin:0 12px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden;}
+    .profile-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--acid),transparent);}
+    #loadingIndicator{font-size:0.78rem;color:var(--muted);letter-spacing:0.05em;}
+    .profile-image{width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid var(--acid);box-shadow:0 0 30px rgba(0,255,136,0.3);transition:opacity 0.4s,transform 0.3s;}
+    .profile-image.loaded{opacity:1;transform:scale(1.04);}
+    .success-avatar{display:none;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,0.15),rgba(0,229,255,0.05));border:2px solid var(--acid);box-shadow:0 0 30px rgba(0,255,136,0.3);align-items:center;justify-content:center;font-size:3rem;}
+    .success-avatar.visible{display:flex;}
+    .phone-pill{font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;color:var(--acid);background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.25);padding:6px 18px;border-radius:999px;letter-spacing:0.08em;text-shadow:0 0 10px rgba(0,255,136,0.4);}
+    .progress-wrap{margin:0 12px;}
+    .progress-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+    .progress-label{font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;}
+    .progress-pct{font-family:'Orbitron',monospace;font-size:0.72rem;color:var(--acid);}
+    #progress-container{width:100%;background:rgba(0,255,136,0.06);border-radius:999px;overflow:hidden;height:20px;border:1px solid rgba(0,255,136,0.15);position:relative;}
+    #progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#00c853,#00e5ff);border-radius:999px;position:relative;transition:width 0.1s;}
+    #progress-bar::after{content:'';position:absolute;right:0;top:0;bottom:0;width:20px;background:rgba(255,255,255,0.4);filter:blur(4px);border-radius:999px;}
+    #progress-label-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Orbitron',monospace;font-size:0.68rem;font-weight:700;color:#000;mix-blend-mode:difference;filter:invert(1);}
+    .scan-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin:0 12px;position:relative;overflow:hidden;}
+    .scan-card::before{content:'SCANNING...';position:absolute;top:8px;right:12px;font-family:'Orbitron',monospace;font-size:0.55rem;color:rgba(0,255,136,0.3);letter-spacing:0.1em;animation:blink 2s infinite;}
+    .scan-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+    #scan-text{font-size:0.88rem;font-weight:500;color:var(--acid);min-height:1.4em;text-shadow:0 0 10px rgba(0,255,136,0.3);}
+    .info-card{background:rgba(255,214,10,0.06);border:1px solid rgba(255,214,10,0.2);border-radius:var(--radius);padding:14px 16px;margin:0 12px;font-size:0.83rem;font-weight:600;color:#ffd60a;line-height:1.5;}
+    .satellite-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin:0 12px;font-family:'Orbitron',monospace;font-size:0.7rem;color:rgba(0,229,255,0.6);letter-spacing:0.04em;line-height:1.6;}
+    .live-badge{display:flex;align-items:center;justify-content:center;gap:8px;font-size:0.78rem;color:var(--muted);padding:0 12px;}
+    .live-dot{width:8px;height:8px;background:var(--acid);border-radius:50%;animation:blink 1.5s infinite;flex-shrink:0;}
+  </style>
+
+
+
+<!-- UTMIFY UTM Script -->
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+<!-- ===== HACK TRANSITION POPUP ===== -->
+<div id="hack-overlay">
+  <div id="hack-box">
+    <div id="hack-rain"></div>
+    <div id="hack-content">
+      <div id="hack-icon">⬡</div>
+      <div id="hack-title">DOSTĘP PRZYZNANY</div>
+      <div id="hack-sub">SYSTEM SKOMPROMITOWANY</div>
+      <div id="hack-lines">
+        <div class="hline">▸ Przechwytywanie sygnału...</div>
+        <div class="hline">▸ Odszyfrowywanie protokołu SSL...</div>
+        <div class="hline">▸ Wyodrębnianie danych urządzenia...</div>
+        <div class="hline success">▸ ZHAKOWANO POMYŚLNIE!</div>
+      </div>
+      <div id="hack-bar-wrap">
+        <div id="hack-bar"></div>
+        <div id="hack-pct">0%</div>
+      </div>
+    </div>
+  </div>
+</div>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+#hack-overlay{position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono','Courier New',monospace;transition:opacity .6s ease}
+#hack-overlay.fade-out{opacity:0;pointer-events:none}
+#hack-box{position:relative;width:min(480px,92vw);background:#050f07;border:1px solid #00ff88;border-radius:6px;padding:32px 28px;box-shadow:0 0 60px rgba(0,255,136,.25),inset 0 0 40px rgba(0,255,136,.03);overflow:hidden}
+#hack-rain{position:absolute;inset:0;overflow:hidden;opacity:.07;pointer-events:none;font-size:11px;color:#00ff88;line-height:1.2;word-break:break-all;padding:8px}
+#hack-content{position:relative;z-index:2;text-align:center}
+#hack-icon{font-size:52px;color:#00ff88;animation:iconPulse .8s ease-in-out infinite alternate;line-height:1;margin-bottom:16px}
+@keyframes iconPulse{from{text-shadow:0 0 10px #00ff88,0 0 30px #00ff88;transform:scale(1)}to{text-shadow:0 0 20px #00ff88,0 0 60px #00ff88,0 0 100px #00aa55;transform:scale(1.08)}}
+#hack-title{font-size:clamp(20px,5vw,30px);font-weight:900;color:#00ff88;letter-spacing:5px;text-transform:uppercase;margin-bottom:6px;animation:titleFlicker .15s step-end 3}
+@keyframes titleFlicker{0%,100%{opacity:1}50%{opacity:0}}
+#hack-sub{font-size:11px;color:rgba(0,255,136,.5);letter-spacing:4px;margin-bottom:24px}
+#hack-lines{text-align:left;margin-bottom:20px}
+.hline{font-size:12px;color:rgba(0,255,136,.6);padding:3px 0;opacity:0;transform:translateX(-8px);transition:opacity .3s,transform .3s;letter-spacing:.5px}
+.hline.visible{opacity:1;transform:translateX(0)}
+.hline.success{color:#00ff88;font-weight:700;font-size:14px;letter-spacing:1px}
+#hack-bar-wrap{position:relative;background:#0a1a0d;border:1px solid rgba(0,255,136,.2);border-radius:3px;height:24px;overflow:hidden}
+#hack-bar{height:100%;width:0%;background:linear-gradient(90deg,#003311,#00cc66,#00ff88);box-shadow:0 0 12px rgba(0,255,136,.7);transition:width .1s linear;position:relative}
+#hack-bar::after{content:'';position:absolute;top:0;right:0;width:30px;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3))}
+#hack-pct{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:2px}
+</style>
+<script>
+(function(){
+  function playHackSound(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();function beep(f,s,d,v,t){var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type=t||'square';o.frequency.setValueAtTime(f,ctx.currentTime+s);g.gain.setValueAtTime(v||.12,ctx.currentTime+s);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+s+d);o.start(ctx.currentTime+s);o.stop(ctx.currentTime+s+d+.01)}beep(80,0,.08,.15,'sawtooth');beep(120,.08,.08,.12,'sawtooth');beep(200,.16,.06,.1,'square');beep(150,.22,.06,.1,'square');beep(300,.28,.04,.08,'square');beep(180,.32,.04,.08,'square');for(var i=0;i<8;i++)beep(400+i*60,.5+i*.06,.05,.06,'square');beep(523,1.5,.15,.13,'sine');beep(659,1.65,.15,.13,'sine');beep(784,1.8,.25,.15,'sine');beep(1047,2.05,.4,.14,'sine')}catch(e){}}
+  function startRain(){var r=document.getElementById('hack-rain');if(!r)return;var ch='01アイウエオカキクケコ</>{}[]#$%&ABCDEF0123456789';setInterval(function(){r.textContent=Array.from({length:300},function(){return ch[Math.floor(Math.random()*ch.length)]}).join('')},80)}
+  function runSequence(){
+    playHackSound();startRain();
+    var bar=document.getElementById('hack-bar'),pct=document.getElementById('hack-pct'),lines=document.querySelectorAll('.hline'),over=document.getElementById('hack-overlay'),width=0,total=4200,tick=40,steps=total/tick;
+    [400,900,1500,2300].forEach(function(t,i){setTimeout(function(){if(lines[i])lines[i].classList.add('visible')},t)});
+    var iv=setInterval(function(){width=Math.min(width+(100/steps),100);bar.style.width=width.toFixed(1)+'%';pct.textContent=Math.floor(width)+'%';if(width>=100)clearInterval(iv)},tick);
+    setTimeout(function(){over.classList.add('fade-out');setTimeout(function(){over.style.display='none'},650)},5000);
+  }
+  document.addEventListener('DOMContentLoaded',runSequence);
+})();
+</script>
+<!-- ===== END HACK TRANSITION POPUP ===== -->
+
+  <div class="orb orb1"></div><div class="orb orb2"></div>
+<div class="page">
+  <div class="banner-warning">&#9888;&#65039; Wykorzystałeś ostatnią bezpłatną analizę. Zostań na tej stronie.</div>
+  <div class="card success"><div class="card-title green">&#9989; Sukces! Znaleźliśmy numer.</div><div class="card-sub">Poczekaj, generujemy pełny raport znalezionych danych.</div></div>
+  <div class="card" style="padding:12px 16px 8px;"><div class="card-sub">&#128250; Oglądaj wideo podczas analizy &#128071;</div></div>
+  <div class="video-wrap">
+    <video id="meu-video" playsinline muted autoplay preload="auto"></video>
+    <div id="botao-ativar-som"><span class="unmute-icon">&#128263;</span><span class="unmute-text">Dotknij, aby słuchać</span></div>
+    <div class="timer-note">&#9200;&#65039; Szacowany czas: 3 minuty</div>
+  </div>
+  <div class="delayzin cta-wrap">
+    <div class="cta-found">&#128308; ANALIZA ZAKOŃCZONA &mdash; DANE ZNALEZIONE</div>
+    <a href="#" class="btn-cta" onclick="redirectWithQuery();return false;">&#128274; UZYSKAJ DOSTĘP DO ROZMÓW TERAZ</a>
+  </div>
+  <div class="profile-card">
+    <div id="loadingIndicator">&#128269; Ładowanie profilu...</div>
+    <img id="profileImage" class="profile-image" src="../images/default-profile.jpg" alt="">
+    <div class="success-avatar" id="successAvatar">&#128373;&#65039;</div>
+    <div id="phoneNumber" class="phone-pill"></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">&#128202; Postęp analizy</span>
+      <span class="progress-pct" id="pct-display">0%</span>
+    </div>
+    <div id="progress-container"><div id="progress-bar"></div><div id="progress-label-text">0%</div></div>
+  </div>
+  <div class="scan-card"><div class="scan-label">&#128269; STATUS</div><div id="scan-text">Inicjalizacja systemu...</div></div>
+  <div class="info-card">&#9888;&#65039; <strong>UWAGA:</strong> 97% użytkowników odkrywa szokujące sekrety, gdy analiza osiąga 100%!</div>
+  <div class="satellite-card">&#128752;&#65039; SATELITA ORION-X &mdash; ŚLEDZENIE AKTYWNE<br>Przetwarzanie danych lokalizacyjnych w czasie rzeczywistym...</div>
+  <div class="live-badge"><span class="live-dot"></span><span id="contador-pessoas">&#129001; <strong>617</strong> osoby przeprowadzają analizę teraz...</span></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+function getParam(p){return new URLSearchParams(window.location.search).get(p);}
+function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);}
+function redirectWithQuery(){var tel=getParam('tel');window.location.href=tel?'../step3/index.html?tel='+tel:'../step3/index.html';}
+window.onload=function(){if(window.history&&window.history.pushState)window.history.pushState(null,document.title,window.location.href);};
+window.onpopstate=function(e){if(e&&isMobile())redirectWithQuery();};
+document.addEventListener('DOMContentLoaded',function(){
+  var hlsSrc='https://vz-c7bbc1ea-a33.b-cdn.net/2a1ddeb6-9926-42cd-89d2-fe8f8ddb4ff2/playlist.m3u8';
+  var vid=document.getElementById('meu-video');
+  var unmute=document.getElementById('botao-ativar-som');
+  var userPaused=false;
+  function tryPlay(){vid.muted=true;vid.play().catch(function(){});}
+  if(vid.canPlayType('application/vnd.apple.mpegURL')){vid.src=hlsSrc;vid.addEventListener('loadedmetadata',tryPlay);}
+  else if(window.Hls&&window.Hls.isSupported()){var hls=new Hls({maxBufferLength:30});hls.loadSource(hlsSrc);hls.attachMedia(vid);hls.on(Hls.Events.MANIFEST_PARSED,tryPlay);}
+  vid.addEventListener('pause',function(){if(!userPaused)setTimeout(function(){vid.play().catch(function(){});},100);});
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&!userPaused)vid.play().catch(function(){});});
+  window.addEventListener('focus',function(){if(vid.paused&&!userPaused)vid.play().catch(function(){});});
+  setInterval(function(){if(vid.paused&&!userPaused&&vid.readyState>=2)vid.play().catch(function(){});},2000);
+  unmute.addEventListener('click',function(){vid.muted=false;vid.play().catch(function(){});unmute.style.display='none';});
+  var phone=getParam('tel')||getParam('celular');
+  var phoneEl=document.getElementById('phoneNumber');
+  var profileImg=document.getElementById('profileImage');
+  var loadingEl=document.getElementById('loadingIndicator');
+  function showAvatar(){var sa=document.getElementById('successAvatar');if(sa)sa.classList.remove('visible');profileImg.onload=null;profileImg.onerror=null;profileImg.style.display='block';profileImg.src='../images/default-profile.jpg';profileImg.classList.add('loaded');loadingEl.style.display='none';}
+  function showProfile(pic){var sa=document.getElementById('successAvatar');if(sa)sa.classList.remove('visible');profileImg.style.display='block';profileImg.onload=function(){profileImg.classList.add('loaded');sessionStorage.setItem('photoUserLink',pic);sessionStorage.setItem('photoUserPhone',phone);sessionStorage.setItem('photoUserLink:'+phone,pic);loadingEl.style.display='none';};profileImg.onerror=showAvatar;profileImg.src=pic;}
+  if(phone){
+    phoneEl.textContent='+'+phone;
+    fetch('/api/profile-picture?phone='+encodeURIComponent(phone))
+      .then(function(r){return r.ok?r.json():Promise.reject(r.status);})
+      .then(function(data){var pic=data.urlImage||null;if(!pic)throw new Error('x');showProfile(pic);})
+      .catch(function(){var cached=sessionStorage.getItem('photoUserLink:'+phone);if(!cached&&sessionStorage.getItem('photoUserPhone')===phone)cached=sessionStorage.getItem('photoUserLink');if(cached){showProfile(cached);}else{sessionStorage.removeItem('photoUserLink');sessionStorage.removeItem('photoUserPhone');showAvatar();}});
+  }else{phoneEl.textContent='';loadingEl.style.display='none';}
+  var bar=document.getElementById('progress-bar');
+  var pctDisplay=document.getElementById('pct-display');
+  var labelText=document.getElementById('progress-label-text');
+  var ctaEl=document.querySelector('.delayzin');
+  var scanEl=document.getElementById('scan-text');
+  var progressStarted=false;
+  var scanInterval=null;
+  var scans=["Deszyfrowanie tajnych rozmów...","Przechwytywanie ostatnich zdjęć...","Śledzenie lokalizacji w czasie rzeczywistym...","Odblokowywanie Snapchata...","Analizowanie połączeń wideo...","Odczytywanie wiadomości tekstowych...","Sprawdzanie statusów i stories...","Synchronizowanie z chmurą...","Monitorowanie TikTok...","Odzyskiwanie usuniętych wiadomości...","Dostęp do ukrytych galerii...","Czytanie odebranych e-maili...","Deszyfrowanie historii przeglądania...","Przeglądanie prywatnych notatek...","Sprawdzanie dodanych kontaktów...","Analizowanie wiadomości głosowych...","Identyfikowanie podłączonych urządzeń...","Monitorowanie sieci społecznościowych...","Analizowanie zdjęć WhatsApp...","Odzyskiwanie udostępnionych dokumentów...","Deszyfrowanie zapisanych haseł...","Pobieranie końcowego wyniku..."];
+  var si=0;
+  function startScans(){scanInterval=setInterval(function(){si=(si+1)%scans.length;scanEl.textContent=scans[si];},1800);}
+  function showComplete(){
+    if(scanInterval)clearInterval(scanInterval);
+    scanEl.textContent='';
+    var scanCard=document.querySelector('.scan-card');
+    if(scanCard){
+      scanCard.style.background='rgba(0,255,136,0.08)';
+      scanCard.style.border='1px solid rgba(0,255,136,0.35)';
+      scanCard.style.removeProperty('overflow');
+      scanCard.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:4px 0;">'
+        +'<span style="font-size:1.8rem;">&#9989;</span>'
+        +'<div><div style="font-family:Orbitron,monospace;font-size:0.7rem;font-weight:700;color:#00ff88;letter-spacing:0.1em;text-transform:uppercase;">ANALIZA ZAKOŃCZONA</div>'
+        +'<div style="font-size:0.82rem;color:#a0c0b0;margin-top:4px;">Wszystkie dane zostały pomyślnie zebrane.</div></div></div>';
+    }
+    ctaEl.classList.add('visible');
+    setTimeout(function(){ctaEl.scrollIntoView({behavior:'smooth',block:'center'});},100);
+  }
+  function startSyncedProgress(duration){
+    if(progressStarted)return;progressStarted=true;
+    startScans();
+    var totalMs=duration*1000;var startTime=Date.now();
+    function upd(){
+      var pct=Math.min(Math.floor((Date.now()-startTime)/totalMs*100),100);
+      bar.style.width=pct+'%';pctDisplay.textContent=pct+'%';
+      if(pct<30)labelText.textContent='0-30%';
+      else if(pct<60)labelText.textContent='30-60%';
+      else if(pct<90)labelText.textContent='60-90%';
+      else labelText.textContent='90-100%';
+      if(pct>=100){bar.style.width='100%';pctDisplay.textContent='100%';labelText.textContent='100%';showComplete();return;}
+      requestAnimationFrame(upd);
+    }
+    requestAnimationFrame(upd);
+  }
+  vid.addEventListener('loadedmetadata',function(){if(vid.duration&&isFinite(vid.duration))startSyncedProgress(vid.duration);});
+  vid.addEventListener('ended',function(){bar.style.width='100%';pctDisplay.textContent='100%';labelText.textContent='100%';showComplete();});
+  setTimeout(function(){if(!progressStarted)startSyncedProgress(100);},3000);
+  var min=153,max=1080,cur=Math.floor(Math.random()*(max-min+1))+min;
+  var cEl=document.getElementById('contador-pessoas');
+  setInterval(function(){var v=Math.floor(Math.random()*10)+1;cur+=Math.random()<0.5?v:-v;cur=Math.max(min,Math.min(max,cur));cEl.innerHTML='&#129001; <strong>'+cur+'</strong> osoby przeprowadzają analizę teraz...';},Math.floor(Math.random()*3000)+2000);
+});
+</script>
+</body>
+</html>

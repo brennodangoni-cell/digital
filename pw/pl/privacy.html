@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Privacy Policy – TaskFlow</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#fff;color:#111;font-family:Georgia,serif;font-size:16px;line-height:1.8;}
+    a{color:#111;} a:hover{opacity:.7;}
+    .top-bar{background:#f8f9ff;border-bottom:1px solid #e0e0f0;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+    .top-bar .brand{font-size:15px;font-weight:bold;color:#111;text-decoration:none;}
+    .top-bar .back{font-family:Arial,sans-serif;font-size:13px;color:#555;text-decoration:none;}
+    .top-bar .back:hover{color:#4338ca;}
+    .title-bar{border-bottom:2px solid #111;padding:36px 40px 24px;}
+    .title-bar h1{font-size:28px;font-weight:bold;margin-bottom:6px;}
+    .title-bar .meta{font-family:Arial,sans-serif;font-size:13px;color:#555;}
+    .doc-body{max-width:820px;padding:40px 40px 80px;}
+    h2{font-size:15px;font-weight:bold;text-transform:uppercase;letter-spacing:.5px;margin:36px 0 10px;padding-bottom:6px;border-bottom:1px solid #ccc;font-family:Arial,sans-serif;}
+    p{margin-bottom:12px;color:#222;}
+    ul{margin:8px 0 14px 24px;color:#222;} ul li{margin-bottom:6px;}
+    .footer-bar{border-top:1px solid #ddd;padding:20px 40px;font-family:Arial,sans-serif;font-size:13px;color:#777;}
+    .footer-bar a{color:#777;}
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <a href="index.html" class="brand">✓ TaskFlow</a>
+    <a href="index.html" class="back">← Back to site</a>
+  </div>
+  <div class="title-bar">
+    <h1>Privacy Policy</h1>
+    <p class="meta">TaskFlow &nbsp;|&nbsp; Last updated: <span id="date"></span></p>
+  </div>
+  <div class="doc-body">
+    <h2>1. Introduction</h2>
+    <p>TaskFlow, under the responsibility of <strong>Pedro José Tacola Cunha Lima Filho (CPF: 390.897.948-08)</strong>, is committed to protecting your privacy.</p>
+    <h2>2. Data We Collect</h2>
+    <ul>
+      <li>Name and email address at purchase;</li>
+      <li>Purchase confirmation (card details via payment platform only);</li>
+      <li>Anonymous analytics data;</li>
+      <li>Support communications.</li>
+    </ul>
+    <p>We do not knowingly collect data from individuals under 18 years of age.</p>
+    <h2>3. How We Use Your Data</h2>
+    <ul>
+      <li>Process and confirm purchases;</li>
+      <li>Deliver the product and bonus materials;</li>
+      <li>Provide customer support;</li>
+      <li>Send product updates;</li>
+      <li>Comply with legal obligations.</li>
+    </ul>
+    <h2>4. Data Sharing</h2>
+    <p>We do not sell or trade your personal data. Shared only with payment processors and email delivery services, or legal authorities when required. No affiliation with MundPay or any other platform.</p>
+    <h2>5. Data Retention</h2>
+    <ul>
+      <li>Purchase records: minimum 5 years;</li>
+      <li>Support communications: up to 2 years.</li>
+    </ul>
+    <h2>6. Data Security</h2>
+    <p>HTTPS encryption for all data. PCI-DSS compliant payment processing. We do not store card details.</p>
+    <h2>7. Cookies and Tracking</h2>
+    <p>Analytics cookies and advertising pixels may be used with anonymized data. Manage via browser settings.</p>
+    <h2>8. Your Rights</h2>
+    <p>Under LGPD (Brazil) and GDPR (EU/UK), you have the right to access, correct, delete, port and object to processing of your data.</p>
+    <h2>9. Children's Privacy</h2>
+    <p>This product is intended for adults aged 18 and over.</p>
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this policy at any time. Continued use constitutes acceptance.</p>
+    <h2>11. Contact</h2>
+    <ul>
+      <li><strong>Responsible:</strong> Pedro José Tacola Cunha Lima Filho</li>
+      <li><strong>CPF:</strong> 390.897.948-08</li>
+      <li><strong>Email:</strong> <a href="mailto:pparentalguid@gmail.com">pparentalguid@gmail.com</a></li>
+    </ul>
+  </div>
+  <div class="footer-bar">
+    © <span id="yr"></span> TaskFlow. All rights reserved. &nbsp;·&nbsp;
+    <a href="terms.html">Terms of Use</a>
+  </div>
+  <script>
+    const n=new Date();
+    document.getElementById('date').textContent=n.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('yr').textContent=n.getFullYear();
+  </script>
+</body>
+</html>

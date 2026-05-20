@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descarga de archivos</title>
+
+<style>
+#lockOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,4,8,0.98);display:flex;justify-content:center;align-items:center;z-index:999999;pointer-events:all;}
+#lockCard{background:linear-gradient(160deg,#0d1420,#080d16);padding:32px;border-radius:20px;max-width:400px;width:92%;font-family:system-ui,-apple-system,sans-serif;color:#e0e8f0;border:1px solid rgba(255,200,0,0.25);text-align:center;}
+#lockWarningIcon{font-size:2.4rem;margin-bottom:10px;animation:iconPulse 1.5s infinite;}
+@keyframes iconPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+#lockTimerNum{font-size:3.5rem;font-weight:900;color:#ffd600;display:block;margin:10px 0;}
+#lockTimerBar{width:100%;height:8px;background:rgba(255,214,0,0.1);border-radius:10px;overflow:hidden;margin-bottom:20px;}
+#lockTimerFill{height:100%;width:100%;background:linear-gradient(90deg,#ff6b00,#ffd600);transform-origin:left;transition:transform 45s linear;}
+.lock-warn-item{font-size:0.8rem;background:rgba(255,180,0,0.06);border:1px solid rgba(255,180,0,0.1);border-radius:8px;padding:10px;margin-bottom:8px;color:rgba(255,180,80,0.8);}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#020408;color:#e8f4f0;font-family:system-ui,-apple-system,sans-serif;overflow-x:hidden;}
+.alert-bar{background:linear-gradient(135deg,#8b0000,#cc0000);padding:14px;text-align:center;border-bottom:2px solid #ff2d55;}
+.alert-title{color:#fff;font-weight:800;font-size:0.9rem;}
+.container{padding:20px 16px;max-width:550px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+.ready-card{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.2);border-radius:14px;padding:25px;text-align:center;border-top:3px solid #00ff88;}
+.ready-title{font-weight:800;color:#00ff88;margin-bottom:5px;}
+.ready-sub{font-size:0.85rem;color:rgba(0,255,136,0.6);}
+#btnNao{display:block;width:100%;text-align:center;padding:15px;font-size:0.8rem;color:rgba(255,255,255,0.2);text-decoration:underline;background:none;border:none;cursor:pointer;}
+.fade-in{animation:fadeIn 0.6s ease-out forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+<script>
+(function(){
+    // Bloqueio do botão voltar
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+        history.go(1);
+        window.location.href = "https://old.mytoolsplay.com/"; 
+    };
+
+    // Controle do Cronômetro 45s
+    document.addEventListener("DOMContentLoaded", function() {
+        var remaining = 45;
+        var fill = document.getElementById('lockTimerFill');
+        var num = document.getElementById('lockTimerNum');
+        
+        if(fill) {
+            setTimeout(() => { fill.style.transform = 'scaleX(0)'; }, 100);
+        }
+
+        var ticker = setInterval(function() {
+            remaining--;
+            if(num) num.textContent = remaining;
+            if(remaining <= 0) {
+                clearInterval(ticker);
+                var overlay = document.getElementById('lockOverlay');
+                if(overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.remove(), 500);
+                }
+            }
+        }, 1000);
+    });
+})();
+</script>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+
+<body>
+
+<div id="lockOverlay">
+  <div id="lockCard">
+    <div id="lockWarningIcon">⚠️</div>
+    <h2 style="font-size:1.1rem; margin-bottom:5px;">No salgas de esta página</h2>
+    <p style="font-size:0.8rem; color:gray;">Preparando tus archivos para descarga...</p>
+    
+    <span id="lockTimerNum">45</span>
+    <div id="lockTimerBar"><div id="lockTimerFill"></div></div>
+
+    <div class="lock-warn-item">🚫 No actualices la página</div>
+    <div class="lock-warn-item">🚫 No cierres esta ventana</div>
+    <p style="font-size:0.7rem; color:#00ff88; margin-top:15px; text-transform:uppercase;">Verificando integridad del paquete...</p>
+  </div>
+</div>
+
+<main>
+  <section class="alert-bar">
+      <h1 class="alert-title">⚠️ No cierres esta página o perderás el acceso a tus archivos.</h1>
+  </section>
+
+  <div class="container">
+    <div class="ready-card fade-in">
+      <div style="font-size:2.5rem; margin-bottom:10px;">✅</div>
+      <div class="ready-title">Archivos listos para descargar</div>
+      <div class="ready-sub">El paquete fue preparado con éxito. Descárgalo ahora antes de que expire el enlace temporal.</div>
+    </div>
+
+    <div style="text-align:center; font-size:0.95rem;" class="fade-in">
+      <p>Haz clic abajo para <strong>iniciar la descarga inmediata</strong>.</p>
+    </div>
+
+    <div class="fade-in" style="min-height: 200px;">
+        <div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">Checkout seguro</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka1xmo0jcu1rmw1kgvue63?offer=O0AJY1G')">Download now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+    </div>
+
+    <button id="btnNao" class="fade-in" onclick="window.location.href='/proximo-upsell'">No, prefiero perder mis archivos y salir</button>
+  </div>
+</main>
+
+<script>
+(function(){
+  function injectParams(){
+    const p=new URLSearchParams(window.location.search);
+    if([...p.entries()].length===0) return;
+    document.querySelectorAll("a[href]").forEach(link=>{
+      const href=link.getAttribute("href");
+      if(!href || href.startsWith("#") || href.startsWith("javascript:")) return;
+      try{
+        const url=new URL(href, window.location.origin);
+        p.forEach((v,k)=>{if(!url.searchParams.has(k))url.searchParams.set(k,v);});
+        link.setAttribute("href",url.toString());
+      }catch(e){}
+    });
+  }
+  injectParams();
+})();
+</script>
+
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

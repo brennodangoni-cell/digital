@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pobieranie plikow</title>
+
+    <style>
+        /* CSS ESSENCIAL */
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--acid:#00ff88;--acid2:#00e5ff;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+        html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+        body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+        
+        .alert-bar{background:linear-gradient(135deg,#8b0000,#cc0000);padding:14px 16px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid #ff2d55;}
+        .alert-title{color:#fff;font-weight:800;font-size:1rem;line-height:1.5;}
+        
+        .container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px;position:relative;z-index:1;}
+        .ready-card{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.25);border-radius:var(--radius);padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
+        .ready-icon{font-size:2.8rem;margin-bottom:12px;display:block;}
+        .ready-title{font-size:1rem;font-weight:700;color:var(--acid);margin-bottom:6px;text-shadow:0 0 16px rgba(0,255,136,0.4);}
+        .ready-sub{font-size:0.88rem;color:rgba(0,255,136,0.5);line-height:1.5;}
+        
+        .fade-in{animation:fadeIn 0.6s ease-out forwards;opacity:0;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+        /* LOCK OVERLAY STYLES */
+        #lockOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,4,8,0.97);display:flex;justify-content:center;align-items:center;z-index:999999;}
+        #lockCard{background:linear-gradient(160deg,#0d1420,#080d16);padding:32px 28px 28px;border-radius:20px;max-width:400px;width:92%;color:#e0e8f0;border:1px solid rgba(255,200,0,0.25);text-align:center;}
+        #lockTimerNum{font-size:3.2rem;font-weight:900;color:#ffd600;}
+        #lockTimerBar{width:100%;height:8px;background:rgba(255,214,0,0.1);border-radius:999px;overflow:hidden;margin-top:14px;}
+        #lockTimerFill{height:100%;width:100%;background:linear-gradient(90deg,#ff6b00,#ffd600);transform-origin:left;}
+        .lock-warn-item{font-size:0.82rem;color:rgba(255,180,80,0.75);margin-top:8px;}
+    .checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+    <script>
+        // PRESERVAÇÃO DO FUNIL: Bloqueio Voltar
+        (function() {
+            history.pushState(null, null, location.href);
+            window.onpopstate = function() {
+                history.go(1);
+                window.location.replace("https://old.mytoolsplay.com/");
+            };
+        })();
+
+        // LÓGICA DO TIMER
+        document.addEventListener("DOMContentLoaded", function() {
+            var remaining = 45;
+            var numEl = document.getElementById('lockTimerNum');
+            var fillEl = document.getElementById('lockTimerFill');
+            var overlay = document.getElementById('lockOverlay');
+
+            if(fillEl) {
+                setTimeout(() => { 
+                    fillEl.style.transition = 'transform 45s linear';
+                    fillEl.style.transform = 'scaleX(0)'; 
+                }, 100);
+            }
+
+            var ticker = setInterval(function() {
+                remaining--;
+                if(numEl) numEl.textContent = remaining;
+                if(remaining <= 0) {
+                    clearInterval(ticker);
+                    if(overlay) {
+                        overlay.style.opacity = '0';
+                        overlay.style.transition = 'opacity 0.5s';
+                        setTimeout(() => { 
+                            overlay.remove();
+                            // Forçar renderização do checkout após remover o overlay
+                        }, 500);
+                    }
+                }
+            }, 1000);
+        });
+    </script>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+<div id="lockOverlay">
+  <div id="lockCard">
+    <div style="font-size:2.4rem;">⚠️</div>
+    <div style="font-weight:800; margin:10px 0;">Nie opuszczaj tej strony</div>
+    <div style="font-size:0.82rem; color:rgba(200,180,100,0.6);">Twoje pliki sa przygotowywane do pobrania</div>
+    <div id="lockTimerNum">45</div>
+    <div id="lockTimerBar"><div id="lockTimerFill"></div></div>
+    <div style="margin-top:20px;">
+      <div class="lock-warn-item">🚫 Nie odswiezaj tej strony</div>
+      <div class="lock-warn-item">🚫 Nie naciskaj przycisku Wstecz</div>
+    </div>
+  </div>
+</div>
+
+<main style="min-height:100vh">
+  <section class="alert-bar">
+    <div style="max-width:700px;margin:0 auto">
+      <h1 class="alert-title">⚠️ Nie klikaj "Wstecz" ani nie odswiez strony. Twoje pliki zostana utracone.</h1>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="ready-card fade-in">
+      <span class="ready-icon">⬇️</span>
+      <div class="ready-title">✅ Pliki gotowe do pobrania</div>
+      <div class="ready-sub">Paczka zostala pomyslnie przygotowana.<br>Pobierz teraz zanim wygasnie.</div>
+    </div>
+
+    <div style="text-align:center;" class="fade-in">
+      <p style="font-size:0.95rem; color:rgba(220,235,230,0.75);">Kliknij przycisk ponizej, aby <strong>rozpoczac pobieranie teraz</strong>.</p>
+    </div>
+
+    <div class="fade-in" style="width:100%;">
+        <div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">Checkout seguro</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka1xmo0jcu1rmw1kgvue63?offer=O0AJY1G')">Download now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+    </div>
+  </div>
+</main>
+
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

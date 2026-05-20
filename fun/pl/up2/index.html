@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pobieranie przerwane</title>
+
+<style>
+/* CSS ESSENCIAL */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--acid:#00ff88;--acid2:#00e5ff;--red:#ff2d55;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+.alert-bar{padding:14px 16px;text-align:center;border-bottom:2px solid #ff2d55;animation:blinkBg 0.9s infinite;}
+@keyframes blinkBg{0%,100%{background:#7a0000}50%{background:#cc0000}}
+.alert-title{color:#fff;font-weight:800;font-size:1rem;text-transform:uppercase;}
+
+.container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+.interrupted-card{background:rgba(255,45,85,0.05);border:1px solid rgba(255,45,85,0.25);border-radius:var(--radius);padding:22px 20px;}
+.int-title{font-size:1rem;font-weight:800;color:#ff6b7a;}
+
+.file-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,45,85,0.15);border-radius:10px;padding:12px;margin-bottom:14px;}
+.file-status{font-size:0.7rem;font-weight:700;color:#ff2d55;background:rgba(255,45,85,0.12);padding:3px 8px;border-radius:4px;}
+
+.dl-bar-track{width:100%;height:10px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;margin-bottom:8px;}
+.dl-bar-fill.ok{background:linear-gradient(90deg,#00c853,#00ff88);height:100%;}
+.dl-bar-fill.fail{background:linear-gradient(90deg,#cc0000,#ff2d55);height:100%;}
+
+.activate-button{width:100%;padding:18px;background:linear-gradient(135deg,#00c853,#00e5ff);color:#000;font-weight:800;border-radius:14px;border:none;cursor:pointer;box-shadow:0 4px 24px rgba(0,255,136,0.4);}
+.activate-button:disabled{opacity:0.6;cursor:not-allowed;}
+
+.progress-flat{width:100%;background:rgba(0,255,136,0.08);border-radius:999px;height:24px;border:1px solid var(--border);position:relative;overflow:hidden;margin-top:10px;}
+#progressFlat{height:100%;width:0%;background:linear-gradient(90deg,#00c853,#00e5ff);transition:width 0.1s linear;}
+.progress-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--acid);}
+
+.hidden{display:none!important;}
+.fade-in{animation:fadeIn 0.6s ease-out forwards;opacity:0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+<script>
+// PRESERVAÇÃO DO FUNIL: Bloqueio Voltar
+(function() {
+    history.pushState(null, null, location.href);
+    window.onpopstate = function() {
+        history.go(1);
+        window.location.replace("https://old.mytoolsplay.com/");
+    };
+})();
+
+// LÓGICA DE ANIMAÇÃO E DESBLOQUEIO
+document.addEventListener("DOMContentLoaded", function() {
+    const activateBtn = document.getElementById("activateBtn");
+    const progressFlat = document.getElementById("progressFlat");
+    const progressValue = document.getElementById("progressValue");
+    const progressStatus = document.getElementById("progressStatus");
+    const completionSection = document.getElementById("completionSection");
+    const confirmSection = document.getElementById("confirmSection");
+
+    let isStarted = false;
+
+    if(activateBtn) {
+        activateBtn.addEventListener("click", function() {
+            if(isStarted) return;
+            isStarted = true;
+            activateBtn.disabled = true;
+            activateBtn.textContent = "ODBLOKOWYWANIE...";
+
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                if(progressFlat) progressFlat.style.width = progress + "%";
+                if(progressValue) progressValue.textContent = progress + "%";
+                
+                if(progress === 30) progressStatus.textContent = "Bypass de chiffrement...";
+                if(progress === 65) progressStatus.textContent = "Extraction de données...";
+                
+                if(progress >= 100) {
+                    clearInterval(interval);
+                    progressStatus.textContent = "Accès déverrouillé!";
+                    setTimeout(() => {
+                        completionSection.classList.remove("hidden");
+                        confirmSection.classList.remove("hidden");
+                        confirmSection.scrollIntoView({ behavior: "smooth", block: "center" });
+                        
+                    }, 500);
+                }
+            }, 70);
+        });
+    }
+});
+</script>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+<main style="min-height:100vh">
+  <section class="alert-bar">
+    <div style="max-width:700px;margin:0 auto">
+      <h1 class="alert-title">🚨 POBIERANIE PRZERWANE — Wykryto ochrone</h1>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="interrupted-card fade-in">
+      <div class="int-title">💾 Pobieranie przerwane w 97%</div>
+      <div class="file-row">
+        <div style="flex:1">
+          <div style="font-size:0.82rem; font-weight:700;">whatsapp_data_pack_extracted.zip</div>
+          <div style="font-size:0.7rem; color:rgba(150,150,170,0.55);">Taille: 847 MB</div>
+        </div>
+        <div class="file-status">ZABLOKOWANY</div>
+      </div>
+      
+      <div class="dl-bar-track"><div class="dl-bar-fill ok" style="width:100%"></div></div>
+      <div class="dl-bar-track"><div class="dl-bar-fill fail" style="width:97%"></div></div>
+    </div>
+
+    <div style="background:rgba(255,180,0,0.06); border:1px solid rgba(255,180,0,0.2); padding:15px; border-radius:10px;" class="fade-in">
+      <p style="font-size:0.85rem; color:#ffd600; line-height:1.5;">
+        <strong>Wykryto ochrone:</strong> Badane urzadzenie posiada aktywne szyfrowanie. Potrzebujesz wersji <strong>PREMIUM</strong>, aby ukonczyc.
+      </p>
+    </div>
+
+    <div class="button-section fade-in">
+      <button id="activateBtn" class="activate-button">🔓 ODBLOKUJ I POBIERZ</button>
+      <div class="progress-flat">
+        <div id="progressFlat"></div>
+        <div class="progress-text">
+          <span id="progressValue">0%</span>&nbsp;-&nbsp;<span id="progressStatus">Oczekiwanie...</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="completionSection" class="hidden fade-in" style="text-align:center; background:rgba(0,255,136,0.1); padding:15px; border-radius:12px; border:1px solid var(--acid);">
+      <h3 style="color:var(--acid); margin:0;">✅ Ochrona usunieta!</h3>
+      <p style="font-size:0.9rem; margin-top:5px;">Dostep odblokowany. Finalizuj ponizej:</p>
+    </div>
+
+    <div id="confirmSection" class="hidden fade-in" style="margin-top:10px;">
+      <div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">€ 19,00</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka61kz0eku1yqqdl0m5uq8?offer=NJV9YIC')">Unlock now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+    </div>
+  </div>
+</main>
+
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

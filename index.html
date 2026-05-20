@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatSpy</title>
+  <script>
+    (function(){
+      var lang=(navigator.language||navigator.userLanguage||'en').slice(0,2).toLowerCase();
+      var supported={en:1,es:1,fr:1,it:1,pl:1};
+      if(!supported[lang]) lang='en';
+      window.location.replace('/'+lang+'/step1/index.html'+window.location.search);
+    })();
+  </script>
+</head>
+<body>
+  <a href="/en/step1/index.html">Continue</a>
+</body>
+</html>

@@ -1,0 +1,49 @@
+.wpcf7-not-valid-red {
+  color: red !important;
+  background-image: url("../images/cancel.png")!important;
+  background-size:  auto 70% !important;
+  background-repeat: no-repeat !important;
+  background-position-x: 97% !important;
+  background-position-y: center !important;
+}
+.wpcf7-not-valid-blue {
+  background-image: url("../images/checked.png")!important;
+  background-size:  auto 70% !important;
+  background-repeat: no-repeat !important;
+  background-position-x: 97% !important;
+  background-position-y: center !important;
+}
+.iti--container {
+  z-index: 99999 !important;
+}
+.iti--allow-dropdown {
+  flex-basis: 100%;
+    max-width: 100%;
+}
+.iti--allow-dropdown input.elementor-field {
+width: 100%;
+}
+.intl-tel-input {
+   flex-basis: 100%;
+}
+.iti-mobile .iti--container {
+  z-index: 99999 !important;
+}
+#popup .iti__country-list {
+  position: fixed;
+}
+.hide_flag .iti__flag ,.hide_flag .iti__flag-box {
+  display: none;
+}
+.hide_code .iti__dial-code, .hide_code .iti__selected-dial-code {
+  display: none;
+}
+.iti__country {
+  color: #000;
+}
+.elementor-element-b9e25e5 .iti__selected-flag{
+      margin-top: 5px;
+      height: 34px;
+      border-radius: 5px 0 0 5px; 
+      color: #000;
+}

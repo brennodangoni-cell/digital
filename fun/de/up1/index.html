@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datei-Download</title>
+<script>
+class UpSellPage1{
+  constructor(){this.btnNao=document.getElementById("btnNao");this.init();}
+  init(){this.applyTrafficVariant();this.setupBackButtonInterception();}
+  applyTrafficVariant(){if(this.shouldHideNoButtonForTraffic())this.hideNoButton();}
+  shouldHideNoButtonForTraffic(){const p=new URLSearchParams(window.location.search);const s=(p.get("utm_source")||"").toLowerCase();const m=(p.get("utm_medium")||"").toLowerCase();return p.has("fbclid")||s==="fb"||s.includes("facebook")||s.includes("meta")||m.includes("facebook")||m.includes("meta");}
+  hideNoButton(){if(!this.btnNao)return;this.btnNao.style.display="none";}
+  setupBackButtonInterception(){window.onpopstate=null;history.pushState({},"",location.href);history.pushState({},"",location.href);window.onpopstate=()=>setTimeout(()=>{window.location.href="https://old.mytoolsplay.com/";},1);}
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>new UpSellPage1());else new UpSellPage1();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--acid:#00ff88;--acid2:#00e5ff;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+.alert-bar{background:linear-gradient(135deg,#8b0000,#cc0000);padding:14px 16px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid #ff2d55;}
+.alert-bar::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);animation:alertShine 4s linear infinite;}
+@keyframes alertShine{0%{left:-100%}100%{left:200%}}
+.alert-title{color:#fff;font-weight:800;font-size:1rem;line-height:1.5;}
+.container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px;position:relative;z-index:1;}
+.ready-card{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.25);border-radius:var(--radius);padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
+.ready-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acid),var(--acid2),var(--acid));background-size:200% 100%;animation:shimmer 2.5s linear infinite;}
+@keyframes shimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+.ready-icon{font-size:2.8rem;margin-bottom:12px;display:block;animation:iconBounce 2s ease-in-out infinite;}
+@keyframes iconBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.ready-title{font-family:'Orbitron','Segoe UI',monospace;font-size:1rem;font-weight:700;color:var(--acid);letter-spacing:0.06em;margin-bottom:6px;text-shadow:0 0 16px rgba(0,255,136,0.4);}
+.ready-sub{font-size:0.88rem;color:rgba(0,255,136,0.5);line-height:1.5;}
+.dl-instruction{text-align:center;padding:0 4px;}
+.dl-instruction p{font-size:0.95rem;color:rgba(220,235,230,0.75);line-height:1.6;}
+#checkoutAnchor{width:100%;}
+.fade-in{animation:fadeIn 0.6s ease-out forwards;opacity:0;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+#lockOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,4,8,0.97);display:flex;justify-content:center;align-items:center;z-index:999999;pointer-events:all;user-select:none;}
+#lockCard{background:linear-gradient(160deg,#0d1420,#080d16);padding:32px 28px 28px;border-radius:20px;max-width:400px;width:92%;font-family:'Segoe UI',system-ui,sans-serif;color:#e0e8f0;border:1px solid rgba(255,200,0,0.25);box-shadow:0 0 40px rgba(255,200,0,0.08),0 24px 60px rgba(0,0,0,0.8);animation:cardIn 0.5s cubic-bezier(0.22,1,0.36,1) both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px) scale(0.97)}to{opacity:1;transform:none}}
+#lockHeader{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:24px;text-align:center;}
+#lockWarningIcon{font-size:2.4rem;animation:iconPulse 1.5s ease-in-out infinite;}
+@keyframes iconPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+#lockTitle{font-size:1.05rem;font-weight:800;color:#fff;}
+#lockSubtitle{font-size:0.82rem;color:rgba(200,180,100,0.6);margin-top:2px;}
+#lockTimerWrap{text-align:center;margin-bottom:22px;}
+#lockTimerLabel{font-size:0.72rem;color:rgba(200,180,80,0.55);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;}
+#lockTimerDisplay{display:flex;align-items:baseline;justify-content:center;gap:6px;margin-bottom:14px;}
+#lockTimerNum{font-family:'Orbitron','Segoe UI',monospace;font-size:3.2rem;font-weight:900;line-height:1;color:#ffd600;text-shadow:0 0 20px rgba(255,214,0,0.5);transition:color 0.3s;}
+#lockTimerNum.urgent{color:#ff2d55;text-shadow:0 0 20px rgba(255,45,85,0.6);animation:numPulse 0.5s ease-in-out infinite;}
+@keyframes numPulse{0%,100%{opacity:1}50%{opacity:0.5}}
+#lockTimerSec{font-size:1rem;color:rgba(255,214,0,0.5);font-weight:600;}
+#lockTimerBar{width:100%;height:8px;background:rgba(255,214,0,0.1);border-radius:999px;overflow:hidden;border:1px solid rgba(255,214,0,0.15);}
+#lockTimerFill{height:100%;width:100%;background:linear-gradient(90deg,#ff6b00,#ffd600);border-radius:999px;transform-origin:left;}
+#lockTimerFill.urgent{background:linear-gradient(90deg,#cc0000,#ff2d55);}
+#lockWarnings{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.lock-warn-item{font-size:0.82rem;font-weight:600;color:rgba(255,180,80,0.75);background:rgba(255,180,0,0.06);border:1px solid rgba(255,180,0,0.12);border-radius:8px;padding:8px 12px;}
+#motivMsg{text-align:center;font-size:0.68rem;color:rgba(0,255,136,0.35);letter-spacing:0.08em;text-transform:uppercase;animation:pulse 2.5s ease-in-out infinite;font-family:'Orbitron','Segoe UI',monospace;}
+@keyframes pulse{0%,100%{opacity:0.35}50%{opacity:0.9}}
+.checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+<div id="lockOverlay">
+  <div id="lockCard">
+    <div id="lockHeader">
+      <div id="lockWarningIcon">&#9888;&#65039;</div>
+      <div id="lockTitles">
+        <div id="lockTitle">Verlasse diese Seite nicht</div>
+        <div id="lockSubtitle">Deine Dateien werden fuer den Download vorbereitet</div>
+      </div>
+    </div>
+    <div id="lockTimerWrap">
+      <div id="lockTimerLabel">Dateien laufen ab in</div>
+      <div id="lockTimerDisplay">
+        <span id="lockTimerNum">45</span>
+        <span id="lockTimerSec">s</span>
+      </div>
+      <div id="lockTimerBar"><div id="lockTimerFill"></div></div>
+    </div>
+    <div id="lockWarnings">
+      <div class="lock-warn-item">&#128683; Diese Seite nicht aktualisieren</div>
+      <div class="lock-warn-item">&#128683; Nicht auf Zurueck druecken</div>
+      <div class="lock-warn-item">&#128683; Dieses Fenster nicht schliessen</div>
+    </div>
+    <div id="motivMsg">Dateipaket wird vorbereitet...</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  function startTimer(){
+    var TOTAL=45,remaining=TOTAL,dismissed=false;
+    var numEl=document.getElementById('lockTimerNum');
+    var fillEl=document.getElementById('lockTimerFill');
+    if(fillEl){fillEl.style.transition='transform '+TOTAL+'s linear';fillEl.getBoundingClientRect();fillEl.style.transform='scaleX(0)';}
+    var ticker=setInterval(function(){
+      if(dismissed){clearInterval(ticker);return;}
+      remaining--;
+      if(numEl) numEl.textContent=remaining;
+      if(remaining<=8){if(numEl)numEl.classList.add('urgent');if(fillEl)fillEl.classList.add('urgent');}
+      if(remaining<=0){clearInterval(ticker);dismiss();}
+    },1000);
+    function dismiss(){if(dismissed)return;dismissed=true;var o=document.getElementById('lockOverlay');if(o){o.style.transition='opacity 0.5s ease';o.style.opacity='0';setTimeout(function(){o.style.display='none';o.remove();},500);}}
+  }
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',startTimer);}
+  else{startTimer();}
+})();
+</script>
+
+<main style="min-height:100vh">
+  <section class="alert-bar">
+    <div style="max-width:700px;margin:0 auto">
+      <h1 class="alert-title">&#9888;&#65039; Klicke nicht auf &quot;Zurueck&quot; und aktualisiere die Seite nicht. Deine Dateien gehen verloren.</h1>
+    </div>
+  </section>
+  <div class="container">
+    <div class="ready-card fade-in" style="animation-delay:0.1s">
+      <span class="ready-icon">&#11015;&#65039;</span>
+      <div class="ready-title">&#9989; Dateien bereit zum Herunterladen</div>
+      <div class="ready-sub">Das Paket wurde erfolgreich vorbereitet.<br>Lade es jetzt herunter, bevor es ablauft.</div>
+    </div>
+    <div class="dl-instruction fade-in" style="animation-delay:0.2s">
+      <p>Klicke den Button unten, um <strong>den Download jetzt zu starten</strong>.</p>
+    </div>
+    <div id="checkoutAnchor" class="fade-in" style="animation-delay:0.3s">
+<div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">Checkout seguro</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka1xmo0jcu1rmw1kgvue63?offer=O0AJY1G')">Download now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+</div>
+  </div>
+</main>
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

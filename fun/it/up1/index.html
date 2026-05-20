@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download dei file</title>
+
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--acid:#00ff88;--acid2:#00e5ff;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+        html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+        body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+        .alert-bar{background:linear-gradient(135deg,#8b0000,#cc0000);padding:14px 16px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid #ff2d55;}
+        .alert-bar::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);animation:alertShine 4s linear infinite;}
+        @keyframes alertShine{0%{left:-100%}100%{left:200%}}
+        .alert-title{color:#fff;font-weight:800;font-size:1rem;line-height:1.5;}
+        .container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px;position:relative;z-index:1;}
+        .ready-card{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.25);border-radius:var(--radius);padding:24px 20px;text-align:center;position:relative;overflow:hidden;}
+        .ready-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acid),var(--acid2),var(--acid));background-size:200% 100%;animation:shimmer 2.5s linear infinite;}
+        @keyframes shimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+        .ready-icon{font-size:2.8rem;margin-bottom:12px;display:block;animation:iconBounce 2s ease-in-out infinite;}
+        @keyframes iconBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        .ready-title{font-family:'Orbitron','Segoe UI',monospace;font-size:1rem;font-weight:700;color:var(--acid);letter-spacing:0.06em;margin-bottom:6px;text-shadow:0 0 16px rgba(0,255,136,0.4);}
+        .ready-sub{font-size:0.88rem;color:rgba(0,255,136,0.5);line-height:1.5;}
+        .dl-instruction{text-align:center;padding:0 4px;}
+        .dl-instruction p{font-size:0.95rem;color:rgba(220,235,230,0.75);line-height:1.6;}
+        #checkoutAnchor{width:100%;margin-top: 10px;min-height: 250px;}
+        .fade-in{animation:fadeIn 0.6s ease-out forwards;opacity:0;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+        #lockOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,4,8,0.97);display:flex;justify-content:center;align-items:center;z-index:999999;pointer-events:all;user-select:none;}
+        #lockCard{background:linear-gradient(160deg,#0d1420,#080d16);padding:32px 28px 28px;border-radius:20px;max-width:400px;width:92%;font-family:sans-serif;color:#e0e8f0;border:1px solid rgba(255,200,0,0.25);text-align:center;}
+        #lockTimerNum{font-size:3.2rem;font-weight:900;color:#ffd600;text-shadow:0 0 20px rgba(255,214,0,0.5);}
+        #lockTimerNum.urgent{color:#ff2d55;}
+        .lock-warn-item{font-size:0.82rem;font-weight:600;color:rgba(255,180,80,0.75);background:rgba(255,180,0,0.06);border:1px solid rgba(255,180,0,0.12);border-radius:8px;padding:8px 12px;margin-bottom:8px;}
+        .checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+        .checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+        .checkout-price{font-size:1.5rem;font-weight:900;color:var(--acid);margin: 5px 0;} 
+        .checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+        .checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+        .checkout-pay-btn:hover{filter:brightness(1.05);}
+        .checkout-no-btn{background:#e92929;color:#fff;}
+        .checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+        .checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+    </style>
+
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-xcod-sck
+      data-utmify-prevent-subids
+      async
+      defer
+    ></script>
+    <script>
+      window.pixelId = "69d945d8152171b75638918d";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+</head>
+<body>
+
+<div id="lockOverlay">
+    <div id="lockCard">
+        <div style="font-size:2.4rem; margin-bottom:10px;">⚠️</div>
+        <div style="font-weight:800; font-size:1.1rem; margin-bottom:5px;">Non uscire da questa pagina</div>
+        <p style="font-size:0.82rem; color:rgba(200,180,100,0.6); margin-bottom:20px;">I tuoi file sono in fase di preparazione</p>
+        
+        <div style="margin-bottom:20px;">
+            <span id="lockTimerNum">45</span><span style="color:#ffd600; font-size:1.2rem;">s</span>
+        </div>
+
+        <div class="lock-warn-item">🚫 Non aggiornare questa pagina</div>
+        <div class="lock-warn-item">🚫 Non premere il tasto Indietro</div>
+        <div style="font-size:0.68rem; color:rgba(0,255,136,0.35); text-transform:uppercase; margin-top:15px;">Preparazione del pacchetto file...</div>
+    </div>
+</div>
+
+<main>
+    <section class="alert-bar">
+        <h1 class="alert-title">⚠️ Non cliccare "Indietro" ne aggiornare la pagina. I tuoi file andranno persi.</h1>
+    </section>
+
+    <div class="container">
+        <div class="ready-card fade-in">
+            <span class="ready-icon">⬇️</span>
+            <div class="ready-title">✅ File pronti per il download</div>
+            <div class="ready-sub">Il pacchetto e stato preparato con sucesso. Scarica ora prima della scadenza.</div>
+        </div>
+
+        <div class="dl-instruction fade-in">
+            <p>Clicca il pulsante qui sotto per <strong>avviare il download ora</strong>.</p>
+        </div>
+
+        <div id="checkoutAnchor" class="fade-in">
+            <div class="checkout-card">
+              <div class="checkout-name">DW - TaskFlow</div>
+              <div class="checkout-price">€ 37,00</div>
+              
+              <button class="checkout-pay-btn" type="button" onclick="redirectToCheckout('https://go.centerpag.com/PPU38CQBMA3?upsell=true')">Download now</button>
+              
+              <!-- BOTÃO DE RECUSA ATUALIZADO COM O LINK SOLICITADO -->
+              <button id="btnNao" class="checkout-no-btn" type="button" onclick="redirectToCheckout('https://sunydev.pro/fun/it/up2')">No</button>
+              
+              <p class="checkout-terms">Cliccando su uno dei pulsanti sopra, accetti i <a href="#" onclick="return false;">Termini di Utilizzo</a>.</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    /* Timer de bloqueio inicial */
+    (function(){
+        var remaining = 45;
+        var timer = setInterval(function(){
+            remaining--;
+            var numEl = document.getElementById('lockTimerNum');
+            if(numEl) {
+                numEl.textContent = remaining;
+                if(remaining <= 8) numEl.classList.add('urgent');
+            }
+            if(remaining <= 0){
+                clearInterval(timer);
+                var overlay = document.getElementById('lockOverlay');
+                if(overlay) overlay.style.display = 'none';
+            }
+        }, 1000);
+
+        /* Bloqueio básico do botão voltar */
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+    })();
+
+    /* Função de Redirecionamento Neutra (Mantém parâmetros UTM) */
+    function redirectToCheckout(baseUrl){
+        var target = new URL(baseUrl);
+        var currentParams = new URLSearchParams(window.location.search);
+        
+        currentParams.forEach(function(value, key){
+            if(!target.searchParams.has(key)){
+                target.searchParams.set(key, value);
+            }
+        });
+        
+        window.location.href = target.toString();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download interrotto</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--acid:#00ff88;--acid2:#00e5ff;--red:#ff2d55;--bg:#020408;--surface:rgba(0,255,136,0.04);--border:rgba(0,255,136,0.15);--text:#e8f4f0;--muted:#4a6a5a;--radius:14px}
+html,body{width:100%;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;}
+body{background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,0.02) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
+
+.alert-bar{padding:14px 16px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid #ff2d55;animation:blinkBg 0.9s infinite;}
+@keyframes blinkBg{0%,100%{background:#7a0000}50%{background:#cc0000}}
+.alert-title{color:#fff;font-weight:800;font-size:1rem;line-height:1.5;}
+
+.container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:18px;position:relative;z-index:1;}
+.interrupted-card{background:rgba(255,45,85,0.05);border:1px solid rgba(255,45,85,0.25);border-radius:var(--radius);padding:22px 20px;position:relative;overflow:hidden;}
+
+.file-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.3);border:1px solid rgba(255,45,85,0.15);border-radius:10px;padding:12px 14px;margin-bottom:14px;}
+.file-status{font-size:0.7rem;font-weight:700;color:#ff2d55;background:rgba(255,45,85,0.12);padding:3px 8px;border-radius:4px;white-space:nowrap;}
+
+.dl-bar-track{width:100%;height:10px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;margin-bottom:10px;}
+.dl-bar-fill.ok{height:100%;background:linear-gradient(90deg,#00c853,#00ff88);width:100%;}
+.dl-bar-fill.fail{height:100%;background:linear-gradient(90deg,#cc0000,#ff2d55);width:97%;}
+
+.activate-button{width:100%;padding:18px 24px;background:linear-gradient(135deg,#00c853,#00e5ff);color:#000;font-weight:800;font-size:1.05rem;border-radius:14px;border:none;cursor:pointer;text-transform:uppercase;margin-top:10px;}
+.progress-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px; margin-top:15px;}
+.progress-flat{width:100%;background:rgba(0,255,136,0.08);border-radius:999px;height:22px;position:relative;overflow:hidden;border:1px solid rgba(0,255,136,0.15);}
+#progressFill{height:100%;width:0%;background:linear-gradient(90deg,#00c853,#00e5ff);transition:width 0.1s linear;}
+
+#checkoutAnchor{margin-top:20px; min-height:250px;}
+.hidden{display:none!important;}
+.fade-in{animation:fadeIn 0.6s ease-out forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1.5rem;font-weight:900;color:var(--acid);margin: 5px 0;} 
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+<main>
+  <section class="alert-bar">
+    <h1 class="alert-title">🚨 DOWNLOAD INTERROTTO — Protezione rilevata</h1>
+  </section>
+
+  <div class="container">
+    <div class="interrupted-card fade-in">
+      <div style="margin-bottom:15px;">
+        <strong style="color:#ff6b7a;">Download interrotto al 97%</strong><br>
+        <span style="font-size:0.8rem;opacity:0.6;">whatsapp_data_pack_extracted.zip</span>
+      </div>
+      
+      <div class="file-row">
+        <div style="flex:1;font-size:0.82rem;">whatsapp_data_pack_extracted.zip</div>
+        <div class="file-status">BLOCCATO</div>
+      </div>
+
+      <div class="dl-bar-track"><div class="dl-bar-fill ok"></div></div>
+      <div class="dl-bar-track"><div class="dl-bar-fill fail"></div></div>
+      
+      <p style="font-size:0.85rem; color:rgba(255,200,100,0.8);"><strong>Protezione:</strong> Il dispositivo ha una crittografia attiva. Hai bisogno della versione <strong>PREMIUM</strong>.</p>
+    </div>
+
+    <section id="btnSection" class="fade-in">
+      <p style="text-align:center;font-size:0.9rem;margin-bottom:10px;color:var(--muted);">Attiva PREMIUM e completa il download ora</p>
+      <button id="activateBtn" class="activate-button">🔓 SBLOCCA E SCARICA</button>
+    </section>
+
+    <section id="progressSection" class="progress-section hidden">
+      <div class="progress-flat">
+        <div id="progressFill"></div>
+      </div>
+      <p id="statusLabel" style="text-align:center;margin-top:10px;font-size:0.8rem;color:var(--acid);">Sblocco protezione... <span id="pctLabel">0%</span></p>
+    </section>
+
+    <div id="checkoutAnchor" class="hidden fade-in">
+      <div class="checkout-card">
+        <div class="checkout-name">DW - TaskFlow</div>
+        <div class="checkout-price">€ 27,00</div>
+        
+        <button class="checkout-pay-btn" type="button" onclick="redirectToCheckout('https://go.centerpag.com/PPU38CQBMA8?upsell=true')">Unlock now</button>
+        
+        <!-- BOTÃO "NO" ATUALIZADO COM O LINK SOLICITADO -->
+        <button id="btnNao" class="checkout-no-btn" type="button" onclick="redirectToCheckout('https://thanks.infspy.online/')">No</button>
+        
+        <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+    const btn = document.getElementById('activateBtn');
+    const btnSec = document.getElementById('btnSection');
+    const progSec = document.getElementById('progressSection');
+    const fill = document.getElementById('progressFill');
+    const pct = document.getElementById('pctLabel');
+    const anchor = document.getElementById('checkoutAnchor');
+
+    btn.addEventListener('click', function(){
+        btnSec.classList.add('hidden');
+        progSec.classList.remove('hidden');
+
+        let progress = 0;
+        let interval = setInterval(function(){
+            progress += 1;
+            fill.style.width = progress + '%';
+            pct.textContent = progress + '%';
+
+            if(progress >= 100){
+                clearInterval(interval);
+                document.getElementById('statusLabel').innerHTML = "✅ Protezione rimossa!";
+                setTimeout(function(){
+                    progSec.classList.add('hidden');
+                    anchor.classList.remove('hidden');
+                }, 800);
+            }
+        }, 60); 
+    });
+
+    // Bloqueio do Botão Voltar
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () { history.go(1); };
+})();
+</script>
+
+<script>
+/* Função de redirecionamento mantendo UTMs */
+function redirectToCheckout(baseUrl){
+  var target = new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){
+      if(!target.searchParams.has(k)) target.searchParams.set(k,v);
+  });
+  window.location.href = target.toString();
+}
+
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  if(Array.from(params).length === 0) return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href = link.getAttribute('href');
+    if(!href || href === '#' || href.indexOf('javascript:') === 0) return;
+    try {
+        var url = new URL(href, window.location.origin);
+        params.forEach(function(v,k){
+            if(!url.searchParams.has(k)) url.searchParams.set(k,v);
+        });
+        link.setAttribute('href', url.toString());
+    } catch(e) {}
+  });
+})();
+</script>
+</body>
+</html>

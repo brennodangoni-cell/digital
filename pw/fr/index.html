@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TaskFlow – Organize Your Tasks and Get More Done Every Day</title>
+  <meta name="description" content="Simple methods to organize your tasks, plan your days and increase your daily productivity. No complex systems — just practical approaches that work." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,300&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+  <script>
+    window.pixelId = "69cebc34c01f733bc61c7a86";
+    var a = document.createElement("script");
+    a.setAttribute("async",""); a.setAttribute("defer","");
+    a.setAttribute("src","https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+    document.head.appendChild(a);
+  </script>
+
+  <style>
+    :root {
+      --indigo:     #4338ca;
+      --indigo2:    #6366f1;
+      --indigo3:    #a5b4fc;
+      --indigo-dim: rgba(67,56,202,0.09);
+      --cyan:       #0891b2;
+      --cyan2:      #06b6d4;
+      --dark:       #09080f;
+      --dark2:      #111018;
+      --dark3:      #1a1826;
+      --dark4:      #232134;
+      --white:      #ffffff;
+      --chalk:      #f8f9ff;
+      --chalk2:     #f0f1ff;
+      --fg:         #0d0c1a;
+      --fg2:        #3d3a5c;
+      --fg3:        #8d8aaa;
+      --border:     rgba(67,56,202,0.12);
+      --border2:    rgba(13,12,26,0.07);
+      --green:      #10b981;
+      --amber:      #f59e0b;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--fg);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ══ HEADER ══ */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 64px;
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: .96rem; color: var(--fg); letter-spacing: -0.3px;
+    }
+    .logo-mark {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: .88rem; box-shadow: 0 4px 14px rgba(67,56,202,0.4);
+    }
+    .logo span { color: var(--indigo2); }
+    .header-nav { display: flex; gap: 28px; }
+    .header-nav a { font-size: .8rem; font-weight: 500; color: var(--fg3); transition: color .2s; }
+    .header-nav a:hover { color: var(--indigo); }
+    .header-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 24px;
+      background: var(--indigo); color: var(--white);
+      font-size: .8rem; font-weight: 700;
+      border-radius: 8px; transition: all .2s;
+      box-shadow: 0 4px 14px rgba(67,56,202,0.4);
+    }
+    .header-cta:hover { background: var(--indigo2); transform: translateY(-1px); }
+
+    /* ══ HERO ══ */
+    .hero {
+      min-height: 100svh; padding-top: 64px;
+      background: var(--dark);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 55% at 85% 35%, rgba(67,56,202,0.18), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 15% 75%, rgba(8,145,178,0.1), transparent 55%);
+    }
+    /* Grid */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(67,56,202,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(67,56,202,0.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+    .hero-grid::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 25%, var(--dark) 80%);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1100px; width: 100%; margin: 0 auto;
+      padding: 80px 56px 100px;
+      display: grid; grid-template-columns: 1fr 400px;
+      gap: 72px; align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(67,56,202,0.1); border: 1px solid rgba(67,56,202,0.22);
+      border-radius: 6px; padding: 6px 16px; margin-bottom: 26px;
+      font-size: .68rem; font-weight: 700; color: var(--indigo3);
+      text-transform: uppercase; letter-spacing: 2px;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo2); animation: bd 1.8s ease-in-out infinite; }
+    @keyframes bd { 0%,100%{box-shadow:0 0 0 0 rgba(67,56,202,.6);}50%{box-shadow:0 0 0 6px rgba(67,56,202,0);} }
+
+    h1 {
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 800; line-height: 1.0;
+      color: var(--white); margin-bottom: 20px; letter-spacing: -1.5px;
+    }
+    h1 .acc { color: var(--indigo3); }
+    h1 .dim { color: rgba(255,255,255,0.2); font-weight: 300; }
+
+    .hero-desc {
+      font-size: 1.05rem; color: rgba(255,255,255,0.42);
+      line-height: 1.85; max-width: 440px; margin-bottom: 36px; font-weight: 300;
+    }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 52px;
+      background: var(--indigo); color: var(--white);
+      font-size: .92rem; font-weight: 700;
+      border-radius: 8px; transition: all .25s;
+      box-shadow: 0 8px 32px rgba(67,56,202,0.45), 0 0 72px rgba(67,56,202,0.15);
+    }
+    .btn-hero:hover { background: var(--indigo2); transform: translateY(-2px); box-shadow: 0 14px 44px rgba(67,56,202,0.6); }
+
+    .hero-trust {
+      display: flex; align-items: center; gap: 20px; margin-top: 22px; flex-wrap: wrap;
+    }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: .76rem; color: rgba(255,255,255,0.28); }
+    .trust-ok { color: var(--indigo3); }
+
+    /* ══ TASK BOARD MOCKUP ══ */
+    .task-board {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(67,56,202,0.1);
+    }
+    .tb-header {
+      background: rgba(255,255,255,0.04);
+      padding: 12px 18px;
+      display: flex; align-items: center; gap: 7px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .tb-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .tb-title { margin-left: 6px; font-size: .66rem; font-weight: 700; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 1px; }
+    .tb-body { padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .tb-section-label { font-size: .6rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; margin-bottom: 2px; }
+    .tb-task {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 13px; border-radius: 9px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: background .2s;
+    }
+    .tb-task:hover { background: rgba(255,255,255,0.07); }
+    .tb-check {
+      width: 17px; height: 17px; border-radius: 5px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: .62rem;
+    }
+    .tb-check.done { background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.25); color: #6ee7b7; }
+    .tb-check.todo { background: rgba(67,56,202,0.12); border: 1px solid rgba(67,56,202,0.2); }
+    .tb-check.focus { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
+    .tb-label { flex: 1; font-size: .8rem; font-weight: 500; color: rgba(255,255,255,0.7); }
+    .tb-label.done { text-decoration: line-through; color: rgba(255,255,255,0.3); }
+    .tb-tag {
+      font-size: .58rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tb-tag.work { background: rgba(67,56,202,0.15); color: var(--indigo3); }
+    .tb-tag.personal { background: rgba(6,182,212,0.12); color: #67e8f9; }
+    .tb-tag.urgent { background: rgba(239,68,68,0.12); color: #fca5a5; }
+    .tb-footer {
+      padding: 12px 18px; border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .tb-progress-label { font-size: .62rem; font-weight: 700; color: rgba(255,255,255,0.25); text-transform: uppercase; letter-spacing: 1px; }
+    .tb-progress-wrap { display: flex; align-items: center; gap: 9px; }
+    .tb-progress-bar { width: 110px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; overflow: hidden; }
+    .tb-progress-fill { height: 100%; width: 60%; background: linear-gradient(90deg, var(--indigo), var(--indigo2)); border-radius: 2px; }
+    .tb-progress-pct { font-size: .7rem; font-weight: 800; color: var(--indigo3); }
+
+    /* ══ CONTAINER ══ */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 56px; }
+    section { padding: 92px 0; position: relative; z-index: 1; }
+    .eyebrow {
+      font-size: .62rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--indigo); margin-bottom: 13px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .eyebrow::before { content: ''; width: 16px; height: 2px; background: var(--indigo); border-radius: 2px; }
+    h2 {
+      font-size: clamp(1.9rem, 3.8vw, 3rem);
+      font-weight: 800; line-height: 1.08; color: var(--fg); letter-spacing: -1px;
+    }
+    h2 span { color: var(--indigo); }
+    h2.wt { color: var(--white); }
+    h2.wt span { color: var(--indigo3); }
+
+    /* ══ METHODS STRIP ══ */
+    .methods-strip { background: var(--chalk2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2); }
+    .methods-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .method-cell {
+      padding: 30px 22px; border-right: 1px solid var(--border2);
+      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 7px;
+      transition: background .2s;
+    }
+    .method-cell:last-child { border-right: none; }
+    .method-cell:hover { background: var(--white); }
+    .method-icon { font-size: 1.8rem; }
+    .method-name { font-size: .9rem; font-weight: 700; color: var(--fg); letter-spacing: -0.2px; }
+    .method-desc { font-size: .74rem; color: var(--fg3); font-weight: 400; line-height: 1.5; }
+
+    /* ══ CHAPTERS ══ */
+    .chapters-section { background: var(--white); border-top: 1px solid var(--border2); }
+    .chapters-top { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 52px; }
+    .chapters-top p { color: var(--fg2); font-size: .97rem; line-height: 1.85; margin-top: 14px; font-weight: 300; }
+    .chapters-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .ch-card {
+      background: var(--chalk); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 28px 22px;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+      position: relative; overflow: hidden;
+    }
+    .ch-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 14px 40px rgba(67,56,202,0.08); }
+    .ch-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 12px 12px 0 0;
+    }
+    .ch-card:nth-child(1)::before { background: var(--indigo); }
+    .ch-card:nth-child(2)::before { background: var(--indigo2); }
+    .ch-card:nth-child(3)::before { background: var(--cyan); }
+    .ch-card:nth-child(4)::before { background: var(--cyan2); }
+    .ch-card:nth-child(5)::before { background: var(--indigo3); }
+    .ch-card:nth-child(6)::before { background: var(--indigo); }
+    .ch-num { font-size: .6rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--fg3); margin-bottom: 13px; }
+    .ch-icon { font-size: 1.9rem; margin-bottom: 11px; display: block; }
+    .ch-card h3 { font-size: .96rem; font-weight: 700; color: var(--fg); margin-bottom: 9px; letter-spacing: -0.2px; }
+    .ch-card p { font-size: .82rem; color: var(--fg2); line-height: 1.8; font-weight: 300; }
+
+    /* ══ INDIGO BAND ══ */
+    .indigo-band {
+      background: var(--indigo);
+      padding: 84px 0; text-align: center; position: relative; overflow: hidden;
+    }
+    .indigo-band::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 40px);
+    }
+    .indigo-band::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(255,255,255,0.07), transparent 70%);
+    }
+    .indigo-band-inner { position: relative; z-index: 1; }
+    .indigo-band h2 { color: var(--white); margin-bottom: 14px; }
+    .indigo-band p { color: rgba(255,255,255,0.65); font-size: 1.05rem; margin-bottom: 34px; font-family: 'Lora', serif; font-style: italic; }
+    .btn-white {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 15px 56px;
+      background: var(--white); color: var(--indigo);
+      font-size: .9rem; font-weight: 800;
+      border-radius: 8px; transition: all .25s;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+    }
+    .btn-white:hover { background: var(--chalk); transform: translateY(-2px); }
+
+    /* ══ BONUSES ══ */
+    .bonus-section { background: var(--chalk); border-top: 1px solid var(--border2); }
+    .bonus-header { margin-bottom: 52px; }
+    .bonus-header p { color: var(--fg2); margin-top: 13px; font-size: .97rem; font-weight: 300; }
+    .bonus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .bonus-card {
+      background: var(--white); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 34px 26px;
+      transition: transform .25s, box-shadow .25s; position: relative; overflow: hidden;
+    }
+    .bonus-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(67,56,202,0.07); }
+    .bonus-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      border-radius: 0 0 12px 12px;
+    }
+    .bonus-card:nth-child(1)::after { background: var(--indigo); }
+    .bonus-card:nth-child(2)::after { background: var(--cyan); }
+    .bonus-card:nth-child(3)::after { background: var(--amber); }
+    .bonus-num { font-size: .6rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--fg3); margin-bottom: 14px; }
+    .bonus-icon { font-size: 2rem; margin-bottom: 14px; display: block; }
+    .bonus-card h3 { font-size: .98rem; font-weight: 700; color: var(--fg); margin-bottom: 10px; }
+    .bonus-card p { font-size: .82rem; color: var(--fg2); line-height: 1.8; font-weight: 300; }
+    .bonus-value { margin-top: 16px; padding-top: 12px; border-top: 1px dashed var(--border2); font-size: .7rem; font-weight: 700; color: var(--fg3); }
+    .bonus-value s { color: var(--indigo); margin-right: 4px; }
+
+    /* ══ TESTIMONIALS ══ */
+    .testi-section { background: var(--white); border-top: 1px solid var(--border2); }
+    .testi-top { text-align: center; margin-bottom: 48px; }
+    .testi-top p { color: var(--fg2); font-size: .97rem; font-weight: 300; margin-top: 13px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 13px; }
+    .testi-card {
+      background: var(--chalk); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 28px 22px;
+      transition: transform .25s; display: flex; flex-direction: column; gap: 16px; position: relative;
+    }
+    .testi-card:hover { transform: translateY(-3px); }
+    .testi-card:nth-child(1) { border-top: 2px solid var(--indigo); }
+    .testi-card:nth-child(2) { border-top: 2px solid var(--cyan); }
+    .testi-card:nth-child(3) { border-top: 2px solid var(--amber); }
+    .stars { font-size: .88rem; letter-spacing: 2px; color: var(--amber); }
+    .testi-quote { font-family: 'Lora', serif; font-style: italic; font-size: .98rem; color: var(--fg2); line-height: 1.85; font-weight: 400; flex: 1; }
+    .testi-author { display: flex; align-items: center; gap: 10px; }
+    .testi-avatar {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: var(--indigo-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 800; color: var(--indigo2);
+    }
+    .testi-name { font-size: .84rem; font-weight: 700; color: var(--fg); }
+    .testi-role { font-size: .74rem; color: var(--fg3); font-weight: 300; }
+
+    /* ══ PRICING ══ */
+    .price-section { background: var(--chalk2); border-top: 1px solid var(--border2); position: relative; overflow: hidden; }
+    .price-section::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 40% 60% at 90% 50%, rgba(67,56,202,0.05), transparent 60%);
+    }
+    .price-wrap { display: grid; grid-template-columns: 1fr 415px; gap: 88px; align-items: center; position: relative; }
+    .price-left h2 { margin-bottom: 16px; }
+    .price-left > p { color: var(--fg2); font-size: .97rem; line-height: 1.85; margin-bottom: 28px; font-weight: 300; }
+    .features { display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+    .feat-row { display: flex; align-items: center; gap: 11px; font-size: .87rem; color: var(--fg2); }
+    .feat-row .fi { font-size: 1rem; }
+    .guarantee {
+      display: flex; gap: 13px; align-items: flex-start;
+      background: rgba(16,185,129,0.05); border: 1px solid rgba(16,185,129,0.18);
+      border-left: 4px solid var(--green); border-radius: 9px; padding: 20px;
+    }
+    .guarantee-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+    .guarantee h4 { font-size: .88rem; font-weight: 700; color: var(--green); margin-bottom: 4px; }
+    .guarantee p { font-size: .82rem; color: var(--fg3); font-weight: 300; line-height: 1.65; }
+    .price-card {
+      background: var(--dark);
+      border-radius: 18px; padding: 44px 38px;
+      position: sticky; top: 82px;
+      box-shadow: 0 26px 66px rgba(9,8,15,0.25), 0 0 0 1px rgba(67,56,202,0.15);
+      overflow: hidden;
+    }
+    .price-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--indigo), var(--indigo2), var(--indigo3), var(--indigo2), var(--indigo), transparent);
+      border-radius: 18px 18px 0 0;
+    }
+    .price-card-glow {
+      position: absolute; width: 260px; height: 260px; top: -70px; right: -50px;
+      background: radial-gradient(circle, rgba(67,56,202,0.14), transparent 65%);
+      filter: blur(60px); pointer-events: none;
+    }
+    .price-label { font-size: .58rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 16px; position: relative; z-index: 1; }
+    .price-row { display: flex; align-items: flex-end; gap: 3px; margin-bottom: 4px; position: relative; z-index: 1; }
+    .price-curr { font-size: 1.9rem; font-weight: 700; color: var(--indigo3); line-height: 1.4; }
+    .price-num { font-size: 6rem; font-weight: 800; line-height: 1; color: var(--white); letter-spacing: -4px; }
+    .price-note { font-size: .7rem; color: rgba(255,255,255,0.25); margin-bottom: 26px; font-style: italic; position: relative; z-index: 1; }
+    .price-divider { height: 1px; background: rgba(255,255,255,0.07); margin-bottom: 20px; }
+    .price-items { display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+    .price-item { display: flex; align-items: flex-start; gap: 11px; font-size: .85rem; color: rgba(255,255,255,0.48); font-weight: 300; }
+    .price-check {
+      width: 17px; height: 17px; border-radius: 5px; flex-shrink: 0; margin-top: 2px;
+      background: var(--indigo-dim); border: 1px solid rgba(67,56,202,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .58rem; color: var(--indigo3);
+    }
+    .btn-buy {
+      display: block; width: 100%; padding: 16px; text-align: center;
+      background: var(--indigo); color: var(--white);
+      font-size: .9rem; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer; transition: all .25s;
+      box-shadow: 0 6px 22px rgba(67,56,202,0.45);
+      position: relative; z-index: 1;
+    }
+    .btn-buy:hover { background: var(--indigo2); transform: translateY(-2px); }
+    .secure-note { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: .7rem; color: rgba(255,255,255,0.2); margin-top: 12px; position: relative; z-index: 1; }
+
+    /* ══ FAQ ══ */
+    .faq-section { background: var(--white); border-top: 1px solid var(--border2); }
+    .faq-inner { display: grid; grid-template-columns: 290px 1fr; gap: 96px; align-items: start; }
+    .faq-left { position: sticky; top: 82px; }
+    .faq-left h2 { margin-bottom: 13px; }
+    .faq-left p { color: var(--fg2); font-size: .92rem; line-height: 1.8; margin-top: 13px; font-weight: 300; }
+    .faq-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 24px; padding: 11px 26px;
+      background: var(--indigo); color: var(--white);
+      font-size: .8rem; font-weight: 700;
+      border-radius: 8px; transition: all .22s;
+      box-shadow: 0 4px 14px rgba(67,56,202,0.35);
+    }
+    .faq-cta:hover { background: var(--indigo2); transform: translateY(-1px); }
+    .faq-list { display: flex; flex-direction: column; }
+    details { border-bottom: 1px solid var(--border2); }
+    summary {
+      padding: 20px 0; font-size: .95rem; font-weight: 600;
+      cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+      color: var(--fg); gap: 16px; letter-spacing: -0.2px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; font-size: 1.3rem; color: var(--indigo); transition: transform .3s; flex-shrink: 0; font-weight: 300; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details[open] summary { color: var(--indigo); }
+    details p { padding: 0 0 20px; font-size: .87rem; color: var(--fg2); line-height: 1.9; font-weight: 300; }
+    details p a { color: var(--indigo); }
+
+    /* ══ FOOTER ══ */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,0.28);
+      padding: 52px 0 32px; position: relative; overflow: hidden;
+    }
+    footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--indigo), var(--indigo2), var(--indigo), transparent);
+    }
+    .footer-grid {
+      max-width: 1100px; margin: 0 auto; padding: 0 56px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 52px; margin-bottom: 40px;
+    }
+    .footer-logo-row {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 800; font-size: .95rem; color: var(--white); margin-bottom: 13px; letter-spacing: -0.3px;
+    }
+    .footer-logo-row .flm {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--indigo), var(--indigo2));
+      display: flex; align-items: center; justify-content: center; font-size: .82rem;
+    }
+    .footer-logo-row span { color: var(--indigo3); }
+    .footer-tagline { font-size: .84rem; color: rgba(255,255,255,0.28); line-height: 1.8; font-weight: 300; max-width: 270px; margin-bottom: 16px; }
+    .footer-info { font-size: .78rem; line-height: 2; }
+    .footer-info strong { color: rgba(255,255,255,0.55); font-weight: 600; }
+    .footer-info a { color: rgba(255,255,255,0.28); transition: color .2s; }
+    .footer-info a:hover { color: var(--indigo3); }
+    .footer-col h5 { font-size: .6rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.22); margin-bottom: 14px; }
+    .footer-col a { display: block; font-size: .82rem; color: rgba(255,255,255,0.28); margin-bottom: 9px; transition: color .2s; }
+    .footer-col a:hover { color: var(--indigo3); }
+    .footer-bottom {
+      max-width: 1100px; margin: 0 auto; padding: 20px 56px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      font-size: .73rem; color: rgba(255,255,255,0.2);
+    }
+    .footer-disclaimer { max-width: 530px; line-height: 1.7; font-style: italic; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 44px; }
+      .methods-row { grid-template-columns: 1fr 1fr; }
+      .chapters-top { grid-template-columns: 1fr; gap: 22px; }
+      .chapters-grid, .bonus-grid, .testi-grid { grid-template-columns: 1fr; }
+      .price-wrap { grid-template-columns: 1fr; gap: 44px; }
+      .price-card { position: static; }
+      .faq-inner { grid-template-columns: 1fr; gap: 30px; }
+      .faq-left { position: static; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; padding: 0 28px; }
+      .footer-bottom { flex-direction: column; padding: 20px 28px 0; }
+      .container { padding: 0 28px; }
+    }
+    @media (max-width: 768px) {
+      .header-nav { display: none; }
+      .hero-inner { padding: 48px 28px 72px; }
+    }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
+    .hero-badge { animation: fadeUp .5s ease both .1s; }
+    h1           { animation: fadeUp .65s ease both .26s; }
+    .hero-desc   { animation: fadeUp .6s ease both .42s; }
+    .btn-hero    { animation: fadeUp .6s ease both .56s; }
+    .hero-trust  { animation: fadeUp .6s ease both .7s; }
+    .task-board  { animation: fadeUp .7s ease both .32s; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-mark">✓</div>
+      <span>Task</span>Flow
+    </div>
+    <nav class="header-nav">
+      <a href="#about">Chapters</a>
+      <a href="#bonus">Bonuses</a>
+      <a href="#buy">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="https://pay.mycheckoutt.com/019d77cd-adb8-7117-af80-19a59b608148?ref=" class="header-cta" target="_blank" rel="noopener noreferrer">Get Access →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><div class="badge-dot"></div>Digital Guide · Instant Access</div>
+        <h1>Get Your<br/><span class="acc">Tasks</span><br/><span class="dim">Under</span> Control.</h1>
+        <p class="hero-desc">
+          Simple, practical methods to organise your tasks, plan your days and make steady progress on what matters — without overcomplicating how you work.
+        </p>
+        <a href="https://pay.mycheckoutt.com/019d77cd-adb8-7117-af80-19a59b608148?ref=" class="btn-hero" target="_blank" rel="noopener noreferrer">
+          Get my TaskFlow Guide →
+        </a>
+        <div class="hero-trust">
+          <div class="trust-item"><span class="trust-ok">✓</span> 6 practical chapters</div>
+          <div class="trust-item"><span class="trust-ok">✓</span> Simple methods</div>
+          <div class="trust-item"><span class="trust-ok">✓</span> 7-day guarantee</div>
+        </div>
+      </div>
+
+      <!-- Task board mockup -->
+      <div class="task-board">
+        <div class="tb-header">
+          <div class="tb-dot" style="background:#ff5f57;"></div>
+          <div class="tb-dot" style="background:#febc2e;"></div>
+          <div class="tb-dot" style="background:#28c840;"></div>
+          <span class="tb-title">TaskFlow · Today</span>
+        </div>
+        <div class="tb-body">
+          <div class="tb-section-label">✓ Completed</div>
+          <div class="tb-task">
+            <div class="tb-check done">✓</div>
+            <div class="tb-label done">Morning planning ritual</div>
+            <div class="tb-tag personal">Personal</div>
+          </div>
+          <div class="tb-task">
+            <div class="tb-check done">✓</div>
+            <div class="tb-label done">Review weekly goals</div>
+            <div class="tb-tag work">Work</div>
+          </div>
+          <div class="tb-section-label" style="margin-top:8px;">⚡ In Focus</div>
+          <div class="tb-task" style="border-color:rgba(67,56,202,0.2);background:rgba(67,56,202,0.06);">
+            <div class="tb-check focus">⚡</div>
+            <div class="tb-label">Deep work block — report draft</div>
+            <div class="tb-tag urgent">Priority</div>
+          </div>
+          <div class="tb-section-label" style="margin-top:8px;">○ Up Next</div>
+          <div class="tb-task">
+            <div class="tb-check todo"></div>
+            <div class="tb-label">Respond to team messages</div>
+            <div class="tb-tag work">Work</div>
+          </div>
+          <div class="tb-task">
+            <div class="tb-check todo"></div>
+            <div class="tb-label">Weekly shutdown review</div>
+            <div class="tb-tag personal">Personal</div>
+          </div>
+        </div>
+        <div class="tb-footer">
+          <span class="tb-progress-label">Day Progress</span>
+          <div class="tb-progress-wrap">
+            <div class="tb-progress-bar"><div class="tb-progress-fill"></div></div>
+            <span class="tb-progress-pct">60%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODS STRIP -->
+  <div class="methods-strip">
+    <div class="methods-row container" style="padding:0 56px;">
+      <div class="method-cell"><div class="method-icon">📋</div><div class="method-name">Task Capture</div><div class="method-desc">Get everything out of your head and into a trusted system</div></div>
+      <div class="method-cell"><div class="method-icon">🎯</div><div class="method-name">Prioritisation</div><div class="method-desc">Know exactly what to work on first, every single day</div></div>
+      <div class="method-cell"><div class="method-icon">⏱️</div><div class="method-name">Time Blocking</div><div class="method-desc">Schedule tasks into your day so they actually get done</div></div>
+      <div class="method-cell"><div class="method-icon">🔄</div><div class="method-name">Weekly Review</div><div class="method-desc">Stay on track with a simple end-of-week reset ritual</div></div>
+    </div>
+  </div>
+
+  <!-- CHAPTERS -->
+  <section class="chapters-section" id="about">
+    <div class="container">
+      <div class="chapters-top">
+        <div>
+          <div class="eyebrow">What's inside</div>
+          <h2>Six chapters for <span>organised, effective work.</span></h2>
+        </div>
+        <div>
+          <p>TaskFlow keeps things simple. Each chapter introduces one clear system or method, explains why it works and shows you how to apply it immediately — so your task management improves from the very first day you read the guide.</p>
+        </div>
+      </div>
+      <div class="chapters-grid">
+        <div class="ch-card">
+          <div class="ch-num">Chapter 01</div>
+          <span class="ch-icon">🧠</span>
+          <h3>Why Most Task Systems Fail</h3>
+          <p>The common reasons people struggle with task management — overloaded to-do lists, no clear priorities, starting the day reactively. How simple changes to your approach make a meaningful difference to how much you actually get done each day.</p>
+        </div>
+        <div class="ch-card">
+          <div class="ch-num">Chapter 02</div>
+          <span class="ch-icon">📋</span>
+          <h3>Capturing and Organising Tasks</h3>
+          <p>How to build a reliable system for capturing every task so nothing falls through the cracks — inbox organisation, categorising by project and context, using digital and analogue tools effectively, and keeping your task list manageable rather than overwhelming.</p>
+        </div>
+        <div class="ch-card">
+          <div class="ch-num">Chapter 03</div>
+          <span class="ch-icon">🎯</span>
+          <h3>Prioritisation Methods That Work</h3>
+          <p>How to decide what to work on first — the MIT (Most Important Task) method, the Eisenhower Matrix for urgent vs. important decisions, how to identify your highest-impact tasks each day and avoid spending time on low-value work that feels productive but isn't.</p>
+        </div>
+        <div class="ch-card">
+          <div class="ch-num">Chapter 04</div>
+          <span class="ch-icon">⏱️</span>
+          <h3>Planning Your Day Effectively</h3>
+          <p>A simple daily planning routine — how to start each day with clarity, time-block your most important tasks, build in realistic buffer time, handle unexpected tasks without losing your plan, and close each day with a brief review that sets up tomorrow before you finish today.</p>
+        </div>
+        <div class="ch-card">
+          <div class="ch-num">Chapter 05</div>
+          <span class="ch-icon">📅</span>
+          <h3>Weekly Planning and Review</h3>
+          <p>The weekly review practice that keeps your whole system running — how to process the week's backlog, carry forward unfinished tasks, set weekly goals, plan the coming week before it arrives, and maintain momentum across multiple projects without losing track of any of them.</p>
+        </div>
+        <div class="ch-card">
+          <div class="ch-num">Chapter 06</div>
+          <span class="ch-icon">🌱</span>
+          <h3>Building Lasting Task Habits</h3>
+          <p>How to make your task system a consistent habit rather than something you only use when things are going well — habit stacking, minimum effective dose routines, maintaining your system during busy periods, and adapting your approach as your work and life circumstances change.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDIGO BAND -->
+  <div class="indigo-band">
+    <div class="indigo-band-inner container">
+      <h2 class="wt">Over 1,500 people are <span>working with more clarity</span> every day.</h2>
+      <p>Simple methods. Real organisation. No complex systems required.</p>
+      <a href="https://pay.mycheckoutt.com/019d77cd-adb8-7117-af80-19a59b608148?ref=" class="btn-white" target="_blank" rel="noopener noreferrer">Get my TaskFlow Guide →</a>
+    </div>
+  </div>
+
+  <!-- BONUSES -->
+  <section class="bonus-section" id="bonus">
+    <div class="container">
+      <div class="bonus-header">
+        <div class="eyebrow">Included free</div>
+        <h2>Three <span>useful bonuses</span> included.</h2>
+        <p>Free with every copy of the TaskFlow Guide.</p>
+      </div>
+      <div class="bonus-grid">
+        <div class="bonus-card">
+          <div class="bonus-num">Bonus 01</div>
+          <span class="bonus-icon">📄</span>
+          <h3>Daily Task Planner Template</h3>
+          <p>A printable and digital daily planner with sections for your top 3 tasks, time-blocked schedule, task categories, notes and a brief end-of-day review. Available in A4, A5 and US Letter formats. Print as many copies as you need, forever.</p>
+          <div class="bonus-value">Value: <s>$9.00</s> Included free</div>
+        </div>
+        <div class="bonus-card">
+          <div class="bonus-num">Bonus 02</div>
+          <span class="bonus-icon">🗓️</span>
+          <h3>Weekly Review Worksheet</h3>
+          <p>A structured weekly review worksheet covering task completion, carry-forwards, upcoming priorities, weekly goals and a brief reflection. Designed to take under 20 minutes and ensure you start every week with a clear, current picture of what you're working on.</p>
+          <div class="bonus-value">Value: <s>$12.00</s> Included free</div>
+        </div>
+        <div class="bonus-card">
+          <div class="bonus-num">Bonus 03</div>
+          <span class="bonus-icon">⚡</span>
+          <h3>TaskFlow Community</h3>
+          <p>Access to our private community of people improving their task management together. Share your setups, discuss what's working, get help with specific challenges and connect with others committed to making the most of their working hours through better organisation.</p>
+          <div class="bonus-value">Value: <s>$15.00</s> Included free</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section">
+    <div class="container">
+      <div class="testi-top">
+        <div class="eyebrow" style="justify-content:center;">Real readers</div>
+        <h2>People who got their tasks <span>under control.</span></h2>
+        <p>What readers say after applying the TaskFlow methods to their daily work.</p>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"I had a to-do list with over 80 items that I'd been avoiding for months. Chapter 2 on capturing and organising tasks gave me a clear process for sorting through all of it. In one afternoon I had a manageable, prioritised list. I hadn't felt that in control of my work in years."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">LM</div>
+            <div>
+              <div class="testi-name">Laura M.</div>
+              <div class="testi-role">Cleared a backlog she'd avoided for months</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"The daily planning chapter changed how I start every morning. I used to open my laptop and just react to whatever was in my inbox. Now I spend 10 minutes planning before I touch anything and the difference in how my days feel — and how much I actually finish — is genuinely remarkable."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">JR</div>
+            <div>
+              <div class="testi-name">James R.</div>
+              <div class="testi-role">Reclaimed his mornings with a simple ritual</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="stars">★★★★★</div>
+          <p class="testi-quote">"The weekly review practice from Chapter 5 was the missing piece for me. I'd tried various task apps and systems but always fell off them after a few weeks. The weekly review keeps the whole system current and relevant. I've now been consistently using TaskFlow for four months — a personal record by a long way."</p>
+          <div class="testi-author">
+            <div class="testi-avatar">AN</div>
+            <div>
+              <div class="testi-name">Ana N.</div>
+              <div class="testi-role">Consistent for 4 months — a personal record</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="price-section" id="buy">
+    <div class="container">
+      <div class="price-wrap">
+        <div class="price-left">
+          <div class="eyebrow">Get started</div>
+          <h2>Your most <span>organised workday</span> starts today.</h2>
+          <p>Download TaskFlow and apply your first method before your next working session. All future updates always included at no cost.</p>
+          <div class="features">
+            <div class="feat-row"><span class="fi">✓</span> Simple — no complex apps required</div>
+            <div class="feat-row"><span class="fi">🎯</span> Practical from the very first chapter</div>
+            <div class="feat-row"><span class="fi">💼</span> Works for any job, role or schedule</div>
+          </div>
+          <div class="guarantee">
+            <div class="guarantee-icon">🛡️</div>
+            <div>
+              <h4>7-Day Satisfaction Guarantee</h4>
+              <p>Not satisfied? Full refund within 7 days. No questions asked.</p>
+            </div>
+          </div>
+        </div>
+        <div class="price-card">
+          <div class="price-card-glow"></div>
+          <div class="price-label">Digital Guide · PDF · Instant Access</div>
+          <div class="price-row">
+            <span class="price-curr">$</span>
+            <span class="price-num">19</span>
+          </div>
+          <div class="price-note">One-time payment · No subscription · Lifetime access</div>
+          <div class="price-divider"></div>
+          <div class="price-items">
+            <div class="price-item"><div class="price-check">✓</div>Complete TaskFlow Guide (6 chapters)</div>
+            <div class="price-item"><div class="price-check">✓</div>Capture, prioritise, plan & review systems</div>
+            <div class="price-item"><div class="price-check">✓</div>Weekly planning & lasting task habits</div>
+            <div class="price-item"><div class="price-check">✓</div>📄 Bonus: Daily Task Planner Template</div>
+            <div class="price-item"><div class="price-check">✓</div>🗓️ Bonus: Weekly Review Worksheet</div>
+            <div class="price-item"><div class="price-check">✓</div>⚡ Bonus: TaskFlow Community</div>
+            <div class="price-item"><div class="price-check">✓</div>Free updates forever</div>
+          </div>
+          <a class="btn-buy" href="https://pay.mycheckoutt.com/019d77cd-adb8-7117-af80-19a59b608148?ref=" target="_blank" rel="noopener noreferrer">
+            Get my TaskFlow Guide →
+          </a>
+          <div class="secure-note">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Secure payment · Instant delivery by email
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="faq-inner">
+        <div class="faq-left">
+          <div class="eyebrow">Questions</div>
+          <h2>We have <span>answers.</span></h2>
+          <p>Everything you need before you begin.</p>
+          <a href="https://pay.mycheckoutt.com/019d77cd-adb8-7117-af80-19a59b608148?ref=" class="faq-cta" target="_blank" rel="noopener noreferrer">Get access →</a>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>Does this guide require specific apps or software?</summary>
+            <p>No. The methods in TaskFlow work with paper and pen, digital apps or any combination you prefer. Where apps are mentioned, alternatives are always provided. The guide teaches the underlying principles so you can apply them with whatever tools work best for you.</p>
+          </details>
+          <details>
+            <summary>How is this different from other productivity guides?</summary>
+            <p>TaskFlow focuses specifically on task organisation and daily planning rather than broader productivity or mindset topics. It's narrower in scope and more immediately practical — each chapter gives you one specific method you can implement the same day, rather than broad frameworks that take months to apply.</p>
+          </details>
+          <details>
+            <summary>Is this useful for people with lots of tasks across multiple projects?</summary>
+            <p>Yes — Chapter 2 on organising tasks covers managing multiple projects specifically, including how to keep different workstreams visible without overwhelming a single list. Chapter 5 on weekly review is particularly useful for anyone juggling several ongoing commitments simultaneously.</p>
+          </details>
+          <details>
+            <summary>How is this delivered?</summary>
+            <p>As a PDF delivered by email immediately after purchase. Readable on any device, forever.</p>
+          </details>
+          <details>
+            <summary>What is the refund policy?</summary>
+            <p>7 full days for a complete refund, no questions asked. Contact <a href="mailto:pparentalguid@gmail.com">pparentalguid@gmail.com</a> within 7 days of purchase.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-row">
+          <div class="flm">✓</div>
+          <span>Task</span>Flow
+        </div>
+        <p class="footer-tagline">Simple methods to organise your tasks and increase your daily productivity.</p>
+        <div class="footer-info">
+          <p>Responsible: <strong>Pedro José Tacola Cunha Lima Filho</strong></p>
+          <p>CPF: 390.897.948-08</p>
+          <p>Contact: <a href="mailto:pparentalguid@gmail.com">pparentalguid@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Guide</h5>
+        <a href="#about">Chapters</a>
+        <a href="#bonus">Bonuses</a>
+        <a href="#buy">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="terms.html" target="_blank">Terms of Use</a>
+        <a href="privacy.html" target="_blank">Privacy Policy</a>
+        <a href="mailto:pparentalguid@gmail.com">Contact Us</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> TaskFlow. All rights reserved.</p>
+      <p class="footer-disclaimer">Educational content. Results vary individually. No connection with MundPay or any other companies mentioned. All trademarks belong to their respective owners.</p>
+    </div>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

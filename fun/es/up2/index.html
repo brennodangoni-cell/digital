@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descarga interrumpida</title>
+
+    <style>
+        /* CSS ESSENCIAL E LIMPO */
+        :root{--acid:#00ff88;--acid2:#00e5ff;--red:#ff2d55;--bg:#020408;--border:rgba(0,255,136,0.15);--radius:14px}
+        body{background:var(--bg);color:#e8f4f0;font-family:system-ui,-apple-system,sans-serif;margin:0;overflow-x:hidden;}
+        
+        .alert-bar{padding:14px;text-align:center;border-bottom:2px solid #ff2d55;animation:blinkBg 1s infinite;}
+        @keyframes blinkBg{0%,100%{background:#7a0000}50%{background:#cc0000}}
+        .alert-title{color:#fff;font-weight:800;font-size:0.95rem;text-transform:uppercase;}
+
+        .container{padding:20px 16px;max-width:550px;margin:0 auto;display:flex;flex-direction:column;gap:18px;}
+        .interrupted-card{background:rgba(255,45,85,0.08);border:1px solid rgba(255,45,85,0.3);border-radius:var(--radius);padding:20px;}
+        
+        .file-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.4);border-radius:10px;padding:12px;margin-bottom:15px;border:1px solid rgba(255,45,85,0.1);}
+        .file-status{font-size:0.65rem;font-weight:900;color:#fff;background:#ff2d55;padding:3px 7px;border-radius:4px;}
+
+        .dl-bar-track{width:100%;height:8px;background:rgba(255,255,255,0.05);border-radius:10px;margin:5px 0 12px;overflow:hidden;}
+        .dl-bar-fill.fail{background:#ff2d55;width:97%;height:100%;}
+
+        .activate-button{
+            width:100%;padding:20px;background:linear-gradient(135deg,#00c853,#00e5ff);
+            color:#000;font-weight:900;font-size:1.1rem;border-radius:14px;border:none;cursor:pointer;
+            box-shadow:0 4px 20px rgba(0,255,136,0.3);
+        }
+
+        .progress-flat{width:100%;background:rgba(255,255,255,0.05);border-radius:999px;height:24px;position:relative;overflow:hidden;border:1px solid var(--border);}
+        #progressFlat{height:100%;width:0%;background:linear-gradient(90deg,#00c853,#00e5ff);transition:width 0.1s linear;}
+        .progress-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;font-size:0.75rem;font-weight:700;}
+
+        .hidden{display:none!important;}
+        .fade-in{animation:fadeIn 0.6s ease-out forwards;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+.checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+.checkout-price{font-size:1rem;font-weight:600;color:rgba(248,250,252,0.78);}
+.checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+.checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+.checkout-pay-btn:hover{filter:brightness(1.05);}
+.checkout-no-btn{background:#e92929;color:#fff;}
+.checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+.checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+</style>
+
+    <script>
+        // PRESERVAÇÃO DO FUNIL: BLOQUEIO BOTÃO VOLTAR
+        (function() {
+            history.pushState(null, null, location.href);
+            window.onpopstate = function() {
+                history.go(1);
+                window.location.replace("https://old.mytoolsplay.com/");
+            };
+        })();
+
+        // LÓGICA DE ANIMAÇÃO E INTERAÇÃO
+        document.addEventListener("DOMContentLoaded", function() {
+            const activateBtn = document.getElementById("activateBtn");
+            const progressValue_el = document.getElementById("progressValue");
+            const progressStatus = document.getElementById("progressStatus");
+            const progressFlat = document.getElementById("progressFlat");
+            const completionSection = document.getElementById("completionSection");
+            const confirmSection = document.getElementById("confirmSection");
+
+            let isProgressStarted = false;
+
+            activateBtn.addEventListener("click", function() {
+                if(isProgressStarted) return;
+                isProgressStarted = true;
+                
+                activateBtn.disabled = true;
+                activateBtn.textContent = "ACTIVANDO...";
+
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 1;
+                    if(progressValue_el) progressValue_el.textContent = progress + "%";
+                    if(progressFlat) progressFlat.style.width = progress + '%';
+                    
+                    if(progress === 30) progressStatus.textContent = "Bypass de cifrado...";
+                    if(progress === 65) progressStatus.textContent = "Extrayendo paquetes...";
+                    if(progress === 90) progressStatus.textContent = "Finalizando descarga...";
+
+                    if(progress >= 100) {
+                        clearInterval(interval);
+                        progressStatus.textContent = "¡Acceso desbloqueado!";
+                        activateBtn.textContent = "¡LISTO!";
+                        
+                        setTimeout(() => {
+                            completionSection.classList.remove("hidden");
+                            confirmSection.classList.remove("hidden");
+                            // Scroll suave para o checkout
+                            confirmSection.scrollIntoView({ behavior: "smooth", block: "center" });
+                        }, 600);
+                    }
+                }, 60);
+            });
+        });
+    </script>
+
+<!-- UTMIFY UTM Script -->
+<script
+  src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+  data-utmify-prevent-xcod-sck
+  data-utmify-prevent-subids
+  async
+  defer
+></script>
+<script>
+  window.pixelId = "69d945d8152171b75638918d";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+</head>
+<body>
+
+    <section class="alert-bar">
+        <h1 class="alert-title">🚨 DESCARGA INTERRUMPIDA: ERROR DE SEGURIDAD</h1>
+    </section>
+
+    <div class="container">
+        <div class="interrupted-card fade-in">
+            <div style="font-weight:800; color:#ff6b7a; margin-bottom:12px;">💾 Descarga al 97%</div>
+            <div class="file-row">
+                <div style="flex:1">
+                    <div style="font-size:0.8rem; font-weight:700;">whatsapp_data_pack_extracted.zip</div>
+                    <div style="font-size:0.7rem; color:gray;">Tamaño: 847 MB</div>
+                </div>
+                <div class="file-status">BLOQUEADO</div>
+            </div>
+            <div style="font-size:0.75rem; margin-bottom:5px; color:#aaa;">Cifrado de protección: <span style="color:#ff2d55">FALLIDO</span></div>
+            <div class="dl-bar-track"><div class="dl-bar-fill fail"></div></div>
+        </div>
+
+        <div style="background:rgba(255,180,0,0.05); border:1px solid rgba(255,180,0,0.2); padding:15px; border-radius:12px;" class="fade-in">
+            <p style="font-size:0.85rem; line-height:1.5; color:#ffd600; margin:0;">
+                <strong>Error detectado:</strong> El dispositivo tiene un cifrado activo que bloqueó el último segmento. Usa la tecnología PREMIUM para romper el cifrado.
+            </p>
+        </div>
+
+        <button id="activateBtn" class="activate-button fade-in">🔓 DESBLOQUEAR Y DESCARGAR</button>
+
+        <div class="progress-section fade-in">
+            <div class="progress-flat">
+                <div id="progressFlat"></div>
+                <div class="progress-text">
+                    <span id="progressValue">0%</span>
+                    <span id="progressStatus">Esperando activación...</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="completionSection" class="hidden fade-in" style="text-align:center; background:rgba(0,255,136,0.1); padding:15px; border-radius:12px; border:1px solid var(--acid);">
+            <h3 style="color:var(--acid); margin:0;">✅ ¡Protección eliminada!</h3>
+            <p style="font-size:0.85rem; margin-top:5px;">Acceso desbloqueado. Finaliza tu descarga a continuación:</p>
+        </div>
+
+        <div id="confirmSection" class="hidden fade-in">
+            <div class="checkout-card">
+  <div class="checkout-name">DW - TaskFlow</div>
+  <div class="checkout-price">€ 19,00</div>
+  <button class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka61kz0eku1yqqdl0m5uq8?offer=NJV9YIC')">Unlock now</button>
+  <button id="btnNao" class="checkout-no-btn" type="button">No</button>
+  <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+</div>
+        </div>
+    </div>
+
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){if(!target.searchParams.has(k))target.searchParams.set(k,v);});
+  window.location.href=target.toString();
+}
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(Array.from(params).length===0)return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{var url=new URL(href,window.location.origin);params.forEach(function(v,k){if(!url.searchParams.has(k))url.searchParams.set(k,v);});link.setAttribute('href',url.toString());}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>

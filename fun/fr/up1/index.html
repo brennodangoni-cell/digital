@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telechargement de fichiers</title>
+
+    <style>
+        /* CSS ESSENCIAL */
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--acid:#00ff88;--acid2:#00e5ff;--bg:#020408;--text:#e8f4f0;--radius:14px}
+        body{background:var(--bg);color:var(--text);font-family:-apple-system,system-ui,sans-serif;overflow-x:hidden;}
+        
+        .alert-bar{background:linear-gradient(135deg,#8b0000,#cc0000);padding:14px;text-align:center;border-bottom:2px solid #ff2d55;}
+        .alert-title{color:#fff;font-weight:800;font-size:1rem;}
+
+        .container{padding:20px 16px;max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+        .ready-card{background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.25);border-radius:var(--radius);padding:24px;text-align:center;}
+        .ready-icon{font-size:2.8rem;margin-bottom:12px;display:block;}
+        .ready-title{font-size:1rem;font-weight:700;color:var(--acid);margin-bottom:6px;}
+        
+        #lockOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,4,8,0.97);display:flex;justify-content:center;align-items:center;z-index:9999;}
+        #lockCard{background:linear-gradient(160deg,#0d1420,#080d16);padding:32px;border-radius:20px;max-width:400px;width:92%;color:#e0e8f0;border:1px solid rgba(255,200,0,0.25);text-align:center;}
+        #lockTimerNum{font-size:3.2rem;font-weight:900;color:#ffd600;display:block;margin:10px 0;}
+        #lockTimerBar{width:100%;height:8px;background:rgba(255,214,0,0.1);border-radius:999px;overflow:hidden;}
+        #lockTimerFill{height:100%;width:100%;background:linear-gradient(90deg,#ff6b00,#ffd600);transform-origin:left;transition:transform 45s linear;}
+        
+        .fade-in{animation:fadeIn 0.6s ease-out forwards;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+        .checkout-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:22px 16px;color:#f8fafc;background:rgba(0,255,136,0.045);border:1px solid rgba(0,255,136,0.22);border-radius:14px;}
+        .checkout-name{font-size:1.35rem;font-weight:900;line-height:1.2;color:#f8fafc;}
+        .checkout-price{font-size:1.5rem;font-weight:900;color:var(--acid);margin: 5px 0;} 
+        
+        .checkout-pay-btn,.checkout-no-btn{width:100%;border:0;border-radius:7px;padding:16px 18px;font-family:inherit;font-size:1rem;font-weight:900;cursor:pointer;}
+        .checkout-pay-btn{margin-top:4px;background:#58cf5a;color:#020408;}
+        .checkout-pay-btn:hover{filter:brightness(1.05);}
+        .checkout-no-btn{background:#e92929;color:#fff;}
+        .checkout-terms{font-size:0.78rem;color:rgba(170,180,200,0.75);line-height:1.45;}
+        .checkout-terms a{color:#b7f000;text-decoration:none;font-weight:700;}
+    </style>
+
+    <script>
+        (function() {
+            history.pushState(null, null, location.href);
+            window.onpopstate = function() {
+                history.go(1);
+                window.location.replace("https://old.mytoolsplay.com/");
+            };
+        })();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var remaining = 45;
+            var numEl = document.getElementById('lockTimerNum');
+            var fillEl = document.getElementById('lockTimerFill');
+            var overlay = document.getElementById('lockOverlay');
+
+            if(fillEl) { setTimeout(function() { fillEl.style.transform = 'scaleX(0)'; }, 100); }
+
+            var ticker = setInterval(function() {
+                remaining--;
+                if(numEl) numEl.textContent = remaining;
+                if(remaining <= 0) {
+                    clearInterval(ticker);
+                    if(overlay) {
+                        overlay.style.opacity = '0';
+                        overlay.style.transition = 'opacity 0.5s';
+                        setTimeout(function() { overlay.remove(); }, 500);
+                    }
+                }
+            }, 1000);
+        });
+    </script>
+
+    <script src="https://cdn.utmify.com.br/scripts/utms/latest.js" data-utmify-prevent-xcod-sck data-utmify-prevent-subids async defer></script>
+    <script>
+      window.pixelId = "69d945d8152171b75638918d";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+</head>
+<body>
+
+<div id="lockOverlay">
+  <div id="lockCard">
+    <div style="font-size:2.4rem;">⚠️</div>
+    <h2 style="margin:10px 0 5px; font-size:1.05rem;">Ne quittez pas cette page</h2>
+    <p style="font-size:0.82rem; color:rgba(200,180,100,0.6);">Vos fichiers sont en cours de preparation</p>
+    <span id="lockTimerNum">45</span>
+    <div id="lockTimerBar"><div id="lockTimerFill"></div></div>
+    <div style="margin-top:20px; text-align:left; font-size:0.82rem; color:rgba(255,180,80,0.75);">
+        <p>• Ne rafraichissez pas cette page</p>
+        <p>• Ne cliquez pas sur Retour</p>
+    </div>
+  </div>
+</div>
+
+<main>
+    <section class="alert-bar">
+        <h1 class="alert-title">⚠️ Ne cliquez pas sur "Retour". Vos fichiers seront perdus.</h1>
+    </section>
+
+    <div class="container">
+        <div class="ready-card fade-in">
+            <span class="ready-icon">⬇️</span>
+            <div class="ready-title">✅ Fichiers prets a telecharger</div>
+            <p style="font-size:0.88rem; color:rgba(0,255,136,0.5);">Le paquet a ete prepare avec succes.</p>
+        </div>
+
+        <div style="text-align:center;" class="fade-in">
+            <p style="font-size:0.95rem; color:rgba(220,235,230,0.75);">Cliquez sur le bouton ci-dessous pour lancer le telechargement.</p>
+        </div>
+
+        <div class="fade-in">
+            <div class="checkout-card">
+              <div class="checkout-name">DW - TaskFlow</div>
+              <div class="checkout-price">€ 27 </div>
+              
+              <button id="cta-upsell" class="checkout-pay-btn" type="button" onclick="goDigitalGoatCheckout('https://pay.digitalgoat.com.br/checkout/cmoka1xmo0jcu1rmw1kgvue63?offer=O0AJY1G')">Download now</button>
+              
+              <button id="btnNao" class="checkout-no-btn" type="button" onclick="window.location.href='https://sunydev.pro/fun/fr/up2'">No</button>
+              
+              <p class="checkout-terms">Ao clicar em qualquer botao acima, voce aceita os <a href="#" onclick="return false;">Termos de Uso</a>.</p>
+            </div>
+        </div>
+
+        <div style="text-align:center; margin-top:10px;" class="fade-in">
+            <button style="background:none; border:none; color:#4a6a5a; text-decoration:underline; font-size:0.8rem; cursor:pointer;" onclick="window.location.href='https://sunydev.pro/fun/fr/up2'">Non, je ne veux pas mes fichiers</button>
+        </div>
+    </div>
+</main>
+
+<script>
+function goDigitalGoatCheckout(baseUrl){
+  var target=new URL(baseUrl);
+  new URLSearchParams(window.location.search).forEach(function(v,k){
+      if(!target.searchParams.has(k)) target.searchParams.set(k,v);
+  });
+  window.location.href=target.toString();
+}
+
+(function(){
+  var params=new URLSearchParams(window.location.search);
+  if(params.toString() === "") return;
+  document.querySelectorAll('a[href]').forEach(function(link){
+    var href=link.getAttribute('href');
+    if(!href||href==='#'||href.indexOf('javascript:')===0)return;
+    try{
+        var url=new URL(href,window.location.origin);
+        params.forEach(function(v,k){
+            if(!url.searchParams.has(k)) url.searchParams.set(k,v);
+        });
+        link.setAttribute('href',url.toString());
+    }catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
