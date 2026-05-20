@@ -187,7 +187,7 @@
 <script>
 function getParam(p){return new URLSearchParams(window.location.search).get(p);}
 function isMobile(){return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);}
-function redirectWithQuery(){var tel=getParam('tel');window.location.href=tel?'../step3/index.html?tel='+tel:'../step3/index.html';}
+function redirectWithQuery(){var qs=window.location.search||'';window.location.href='../step3/index.html'+qs;}
 window.onload=function(){if(window.history&&window.history.pushState)window.history.pushState(null,document.title,window.location.href);};
 window.onpopstate=function(e){if(e&&isMobile())redirectWithQuery();};
 document.addEventListener('DOMContentLoaded',function(){
